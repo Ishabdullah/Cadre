@@ -410,16 +410,18 @@ button:hover {
   inset: 0;
   background: rgba(10, 25, 47, 0.85);
   backdrop-filter: blur(4px);
-  display: flex;
+  display: none; /* Hidden by default - JS controls visibility */
   align-items: center;
   justify-content: center;
   z-index: 2000;
   padding: var(--gap);
   overflow-y: auto;
+  pointer-events: auto;
   animation: fadeIn 0.2s ease;
 }
-.modal-overlay[hidden] {
-  display: none;
+.modal-overlay.open,
+.modal-overlay[style*="display: block"] {
+  display: flex;
 }
 @keyframes fadeIn {
   from { opacity: 0; }
