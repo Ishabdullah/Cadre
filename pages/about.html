@@ -5,11 +5,10 @@
   <title>About Cadre & Consilium</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="../style.css">
-  <script src="../script.js"></script>
 </head>
 
 <body>
-  
+
   <!-- Header / Navigation -->
   <header>
     <nav class="navbar">
@@ -22,11 +21,11 @@
 
         <!-- Desktop menu -->
         <ul class="nav-menu">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="pages/services.html">Services</a></li>
-          <li><a href="#subcontractors">Subcontractors</a></li>
-          <li><a href="pages/about.html">About</a></li>
-          <li><a href="pages/contact.html">Contact</a></li>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="../index.html#subcontractors">Subcontractors</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
         </ul>
 
         <!-- Mobile hamburger toggle -->
@@ -37,7 +36,7 @@
     </nav>
   </header>
 
-  
+
   <!-- About Section -->
   <section class="about">
     <h2>About Us</h2>
@@ -48,7 +47,7 @@
     <p>We work closely with subcontractors and trade partners to ensure every project is completed on time, within budget, and to our exacting standards. Our team includes licensed contractors, certified architects, and experienced project managers dedicated to excellence in every phase of the remodeling process.</p>
   </section>
 
-  
+
   <!-- Footer -->
   <footer>
     <p>&copy; <span id="year"></span> Cadre & Consilium Group, LLC. All rights reserved.</p>
@@ -59,16 +58,6 @@
     </ul>
   </footer>
 
-  <script>
-    // Populate current year
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Mobile nav toggle
-    const toggle = document.querySelector('.nav-toggle');
-    const menu = document.querySelector('.nav-menu');
-    if (toggle && menu) {
-      toggle.addEventListener('click', () => menu.classList.toggle('open'));
-    }
-  </script>
+  <script src="../script.js" defer></script>
 </body>
 </html>

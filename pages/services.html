@@ -5,11 +5,10 @@
   <title>Services</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="../style.css">
-  <script src="../script.js"></script>
 </head>
 
 <body>
-  
+
   <!-- Header / Navigation -->
   <header>
     <nav class="navbar">
@@ -22,11 +21,11 @@
 
         <!-- Desktop menu -->
         <ul class="nav-menu">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="pages/services.html">Services</a></li>
-          <li><a href="#subcontractors">Subcontractors</a></li>
-          <li><a href="pages/about.html">About</a></li>
-          <li><a href="pages/contact.html">Contact</a></li>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="../index.html#subcontractors">Subcontractors</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
         </ul>
 
         <!-- Mobile hamburger toggle -->
@@ -37,7 +36,7 @@
     </nav>
   </header>
 
-  
+
   <!-- Services Section -->
   <section class="services">
     <h2>Our Services</h2>
@@ -51,25 +50,33 @@
         <h3>Kitchen & Bathroom Renovations</h3>
       </div>
       <div class="service-card">
-        <svg viewBox="0 0 24 24" fill="#0A192F"><path d="M5 20h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2"/></svg>
+        <svg viewBox="0 0 24 24" fill="#0A192F"><path d="M5 20h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14V4H5v2z"/></svg>
         <h3>Interior & Exterior Finishes</h3>
       </div>
       <div class="service-card">
         <svg viewBox="0 0 24 24" fill="#0A192F"><path d="M12 2L2 7v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V5l-10 3zM5 8h14v2H5V8zm14 14H5v-2h14v2zm0-4H5V8h14v2z"/></svg>
         <h3>Structural Repairs & Framing</h3>
       </div>
+      <div class="service-card">
+        <svg viewBox="0 0 24 24" fill="#0A192F"><path d="M12 2L2 7v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V5l-10 3zM5 8h14v2H5V8zm14 14H5v-2h14v2zm0-4H5V8h14v2z"/></svg>
+        <h3>Project Management & Permitting</h3>
+      </div>
+      <div class="service-card">
+        <svg viewBox="0 0 24 24" fill="#0A192F"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2zm0-4H7V3h10v2z"/></svg>
+        <h3>Pre-Claim Construction & Repair Estimate</h3>
+      </div>
     </div>
   </section>
 
-  
+
   <!-- Subcontractor Section -->
   <section id="subcontractors" class="subcontractor-section">
     <h2>Trade Partners</h2>
     <p>Qualified 1099 subcontractors receive fixed work orders, fair market rates, weekly payouts, and a fast 7&#8209;day final settlement upon inspection sign-off.</p>
-    <a href="pages/contact.html" class="cta-sub">Apply as a Subcontractor</a>
+    <a href="contact.html" class="cta-sub">Apply as a Subcontractor</a>
   </section>
 
-  
+
   <!-- Footer -->
   <footer>
     <p>&copy; <span id="year"></span> Cadre & Consilium Group, LLC. All rights reserved.</p>
@@ -80,16 +87,6 @@
     </ul>
   </footer>
 
-  <script>
-    // Populate current year
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Mobile nav toggle
-    const toggle = document.querySelector('.nav-toggle');
-    const menu = document.querySelector('.nav-menu');
-    if (toggle && menu) {
-      toggle.addEventListener('click', () => menu.classList.toggle('open'));
-    }
-  </script>
+  <script src="../script.js" defer></script>
 </body>
 </html>

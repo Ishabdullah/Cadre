@@ -194,7 +194,9 @@ if (subcontractorForm) {
 
         try {
             const formData = new FormData(subcontractorForm);
-            const response = await fetch('https://formspree.io/f/cadre.projectmanager@gmail.com', {
+            // NOTE: Replace 'YOUR_FORMSPREE_FORM_ID' with your actual Formspree form ID
+            // Format: https://formspree.io/f/YOUR_FORM_ID
+            const response = await fetch('https://formspree.io/f/YOUR_FORMSPREE_FORM_ID', {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -235,7 +237,7 @@ if (subcontractorForm) {
     });
 }
 
-// Contact form submission (existing)
+// Contact form submission
 const contactForm = document.getElementById('contactForm');
 if (contactForm) {
     contactForm.addEventListener('submit', async function (e) {
@@ -252,7 +254,9 @@ if (contactForm) {
 
         try {
             const formData = new FormData(contactForm);
-            const response = await fetch('https://formspree.io/f/cadre.projectmanager@gmail.com', {
+            // NOTE: Replace 'YOUR_FORMSPREE_FORM_ID' with your actual Formspree form ID
+            // Format: https://formspree.io/f/YOUR_FORM_ID
+            const response = await fetch('https://formspree.io/f/YOUR_FORMSPREE_FORM_ID', {
                 method: 'POST',
                 body: formData,
                 headers: {

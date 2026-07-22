@@ -5,11 +5,10 @@
   <title>Contact Cadre & Consilium</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="../style.css">
-  <script src="../script.js"></script>
 </head>
 
 <body>
-  
+
   <!-- Header / Navigation -->
   <header>
     <nav class="navbar">
@@ -22,11 +21,11 @@
 
         <!-- Desktop menu -->
         <ul class="nav-menu">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="pages/services.html">Services</a></li>
-          <li><a href="#subcontractors">Subcontractors</a></li>
-          <li><a href="pages/about.html">About</a></li>
-          <li><a href="pages/contact.html">Contact</a></li>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="../index.html#subcontractors">Subcontractors</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
         </ul>
 
         <!-- Mobile hamburger toggle -->
@@ -37,7 +36,7 @@
     </nav>
   </header>
 
-  
+
   <!-- Contact Section -->
   <section class="contact">
     <h2>Contact Us</h2>
@@ -54,7 +53,7 @@
       </label>
     </div>
 
-    <form id="contactForm" action="https://formspree.io/f/cadre.projectmanager@gmail.com" method="POST">
+    <form id="contactForm">
       <!-- Hidden field for inquiry type from radio selector -->
       <input type="hidden" name="inquiry_type" id="inquiry_type" value="homeowner">
 
@@ -84,13 +83,12 @@
 
     <div class="contact-info">
       <p><strong>Company:</strong> Cadre & Consilium Group, LLC</p>
-      <p><strong>Address:</strong> 1680 Berlin Turnpike, Wethersfield, CT 06109</p>
       <p><strong>Phone:</strong> (860) 470‑6773</p>
       <p><strong>Email:</strong> cadre.projectmanager@gmail.com</p>
     </div>
   </section>
 
-  
+
   <!-- Footer -->
   <footer>
     <p>&copy; <span id="year"></span> Cadre & Consilium Group, LLC. All rights reserved.</p>
@@ -101,16 +99,6 @@
     </ul>
   </footer>
 
-  <script>
-    // Populate current year
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Mobile nav toggle
-    const toggle = document.querySelector('.nav-toggle');
-    const menu = document.querySelector('.nav-menu');
-    if (toggle && menu) {
-      toggle.addEventListener('click', () => menu.classList.toggle('open'));
-    }
-  </script>
+  <script src="../script.js" defer></script>
 </body>
 </html>
