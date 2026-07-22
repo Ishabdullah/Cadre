@@ -5,6 +5,7 @@
   <title>Cadre & Consilium Group, LLC</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="assets/logos/cadre-logo.png" type="image/png">
 </head>
 <body>
   <!-- Header / Navigation -->
@@ -12,13 +13,10 @@
     <nav class="navbar">
       <div class="nav-container">
         <!-- Logo (C&C monogram inside an architectural shield) -->
-        <svg class="logo" viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg">
-          <path d="M5 5 L95 5 L95 45 L5 45 Z" fill="#0A192F"/>
-          <text x="50" y="30" text-anchor="middle" dominant-baseline="middle"
-                font-family="Inter, sans-serif" font-weight="700" font-size="36"
-                fill="#FFFFFF">C&C</text>
-        </svg>
-        <span class="nav-title">Cadre & Consilium Group, LLC</span>
+        <div class="logo-wrapper">
+          <img src="assets/logos/cadre-logo.png" alt="Cadre & Consilium Group Logo" class="logo">
+        </div>
+        <!-- Logo -->
 
         <!-- Desktop menu -->
         <ul class="nav-menu">
@@ -138,6 +136,9 @@
 
   <!-- Footer -->
   <footer>
+    <div class="footer-logo">
+      <img src="assets/logos/cadre-logo.png" alt="Cadre & Consilium Group Logo" class="footer-logo">
+    </div>
     <p>&copy; <span id="year"></span> Cadre & Consilium Group, LLC. All rights reserved.</p>
     <ul class="social-links">
       <li><a href="#">GitHub</a></li>
