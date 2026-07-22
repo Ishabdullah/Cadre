@@ -820,6 +820,18 @@ button:hover {
   line-height: 1.5;
 }
 
+/* Mobile adjustments for submit notice */
+@media (max-width: 480px) {
+  .submit-notice {
+    padding: 0.875rem 1rem;
+    font-size: 0.875rem;
+  }
+  .submit-notice p {
+    font-size: 0.875rem;
+    line-height: 1.55;
+  }
+}
+
 /*====================================
   Pre-Claim Estimate Modal Styles
 ====================================*/
