@@ -21,19 +21,55 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Simple form success message (inline)
+// Form submission with Formspree endpoint
 const form = document.getElementById('contactForm');
 if (form) {
-    form.addEventListener('submit', function (e) {
+    form.addEventListener('submit', async function (e) {
         e.preventDefault();
-        const msg = document.createElement('p');
-        msg.style.color = 'green';
-        msg.textContent = 'Thank you for your submission!';
-        // Remove any previous message
-        const old = form.querySelector('p.success');
-        if (old) old.remove();
-        msg.className = 'success';
-        form.appendChild(msg);
+
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.textContent;
+
+        // Remove any previous messages
+        const oldMsg = form.querySelector('.form-message');
+        if (oldMsg) oldMsg.remove();
+
+        // Set button to loading state
+        submitBtn.textContent = 'Sending...';
+        submitBtn.disabled = true;
+
+        try {
+            const formData = new FormData(form);
+            const response = await fetch('https://formspree.io/f/cadre.projectmanager@gmail.com', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                // Success message
+                const msg = document.createElement('p');
+                msg.className = 'form-message success';
+                msg.textContent = 'Thank you! Your message has been sent to Cadre & Consilium Group. We will review your inquiry and respond shortly.';
+                form.appendChild(msg);
+                form.reset();
+            } else {
+                // Error from Formspree
+                throw new Error('Form submission failed');
+            }
+        } catch (error) {
+            // Error message with fallback email
+            const msg = document.createElement('p');
+            msg.className = 'form-message error';
+            msg.innerHTML = 'Sorry, there was an error sending your message. Please email us directly at <a href="mailto:cadre.projectmanager@gmail.com">cadre.projectmanager@gmail.com</a>.';
+            form.appendChild(msg);
+        } finally {
+            // Restore button state
+            submitBtn.textContent = originalBtnText;
+            submitBtn.disabled = false;
+        }
     });
 }
 
