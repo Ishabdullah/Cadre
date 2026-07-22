@@ -130,6 +130,13 @@ document.addEventListener('DOMContentLoaded', function () {
             document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
         }
 
+        // Open Agreement Terms Modal
+        if (e.target.closest('#reviewAgreementBtn')) {
+            e.preventDefault();
+            const modal = document.getElementById('agreementModal');
+            if (modal) modal.style.display = 'block';
+        }
+
         // Close modal when clicking outside content (backdrop click)
         if (e.target.classList.contains('modal-overlay')) {
             e.target.style.display = 'none';
