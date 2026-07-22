@@ -22,6 +22,84 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // ============================================
+// UTILITY: Mailto Handler & Success UI
+// ============================================
+const MAILTO_EMAIL = 'cadre.projectmanager@gmail.com';
+
+/**
+ * Build a mailto: URL from form data
+ */
+function buildMailtoUrl(subject, body) {
+    const encodedSubject = encodeURIComponent(subject);
+    const encodedBody = encodeURIComponent(body);
+    return `mailto:${MAILTO_EMAIL}?subject=${encodedSubject}&body=${encodedBody}`;
+}
+
+/**
+ * Show success banner with mailto link and fallback
+ */
+function showMailtoSuccess(form, message, mailtoUrl) {
+    const oldMsg = form.querySelector('.form-message');
+    if (oldMsg) oldMsg.remove();
+
+    const msg = document.createElement('div');
+    msg.className = 'form-message success';
+    msg.innerHTML = `
+        <strong>${message}</strong>
+        <p class="mailto-instruction">Opening your email app... Please review the pre-filled message and tap Send!</p>
+        <p class="mailto-fallback">
+            Didn't open? <a href="${mailtoUrl}" target="_blank" rel="noopener">Click here to send email directly</a>
+            or contact us at <a href="mailto:${MAILTO_EMAIL}">${MAILTO_EMAIL}</a>
+        </p>
+    `;
+    form.appendChild(msg);
+    msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return msg;
+}
+
+/**
+ * Show error banner for validation/other errors
+ */
+function showFormError(form, message) {
+    const oldMsg = form.querySelector('.form-message');
+    if (oldMsg) oldMsg.remove();
+
+    const msg = document.createElement('div');
+    msg.className = 'form-message error';
+    msg.innerHTML = message;
+    form.appendChild(msg);
+    msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+/**
+ * Validate required fields and return first invalid or null
+ */
+function validateRequiredFields(form) {
+    const requiredFields = form.querySelectorAll('[required]');
+    let firstInvalid = null;
+    requiredFields.forEach(field => {
+        if (!field.checkValidity()) {
+            field.reportValidity();
+            if (!firstInvalid) firstInvalid = field;
+        }
+    });
+    return firstInvalid;
+}
+
+/**
+ * Extract form field value by trying multiple possible IDs/names
+ */
+function getFormValue(form, fieldConfigs) {
+    for (const config of fieldConfigs) {
+        const field = form.querySelector(config.selector);
+        if (field && field.value.trim()) {
+            return field.value.trim();
+        }
+    }
+    return config.default || '';
+}
+
+// ============================================
 // SUBCONTRACTOR ONBOARDING MODAL LOGIC
 // ============================================
 const subcontractorModal = document.getElementById('subcontractorModal');
@@ -33,10 +111,8 @@ function openModal(modal) {
     if (!modal) return;
     modal.hidden = false;
     document.body.style.overflow = 'hidden';
-    // Focus first focusable element
     const focusable = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
     if (focusable) focusable.focus();
-    // Trap focus
     modal.addEventListener('keydown', trapFocus);
 }
 
@@ -149,29 +225,18 @@ fileInputs.forEach(input => {
     });
 });
 
-// Subcontractor form submission
+// Subcontractor form submission (mailto handler)
 if (subcontractorForm) {
-    subcontractorForm.addEventListener('submit', async function (e) {
+    subcontractorForm.addEventListener('submit', function (e) {
         e.preventDefault();
 
         const submitBtn = document.getElementById('submitSubcontractorBtn');
         const originalBtnText = submitBtn.textContent;
 
-        // Remove any previous messages
-        const oldMsg = subcontractorForm.querySelector('.form-message');
-        if (oldMsg) oldMsg.remove();
-
         // Client-side validation
-        const requiredFields = subcontractorForm.querySelectorAll('[required]');
-        let firstInvalid = null;
-        requiredFields.forEach(field => {
-            if (!field.checkValidity()) {
-                field.reportValidity();
-                if (!firstInvalid) firstInvalid = field;
-            }
-        });
-        if (firstInvalid) {
-            firstInvalid.focus();
+        const invalidField = validateRequiredFields(this);
+        if (invalidField) {
+            invalidField.focus();
             return;
         }
 
@@ -179,109 +244,242 @@ if (subcontractorForm) {
         const coiFile = document.getElementById('coi_upload').files[0];
         const licenseFile = document.getElementById('license_upload').files[0];
         if (!coiFile || !licenseFile) {
-            alert('Please upload both Certificate of Insurance and License Verification documents.');
+            showFormError(this, 'Please upload both Certificate of Insurance and License Verification documents.');
             return;
         }
 
-        // Set subject line with business name
-        const businessName = document.getElementById('business_name').value.trim() || 'Unknown Company';
-        const subjectInput = subcontractorForm.querySelector('input[name="_subject"]');
-        if (subjectInput) subjectInput.value = `New Subcontractor Application - ${businessName}`;
+        // Extract form data
+        const businessName = getFormValue(this, [
+            { selector: '#business_name' },
+            { selector: '[name="business_name"]' }
+        ]) || 'Unknown Company';
+
+        const tradeSpecialty = getFormValue(this, [
+            { selector: '#trade_specialty' },
+            { selector: '[name="trade_specialty"]' }
+        ]) || 'Not specified';
+
+        const principalName = getFormValue(this, [
+            { selector: '#principal_name' },
+            { selector: '[name="principal_name"]' }
+        ]) || 'Not provided';
+
+        const phone = getFormValue(this, [
+            { selector: '#sc_phone' },
+            { selector: '[name="sc_phone"]' }
+        ]) || 'Not provided';
+
+        const email = getFormValue(this, [
+            { selector: '#sc_email' },
+            { selector: '[name="sc_email"]' }
+        ]) || 'Not provided';
+
+        const hasLicense = getFormValue(this, [
+            { selector: 'input[name="has_license"]:checked' },
+            { selector: '[name="has_license"]:checked' }
+        ]) || 'Not specified';
+
+        const licenseNumber = getFormValue(this, [
+            { selector: '#license_number' },
+            { selector: '[name="license_number"]' }
+        ]);
+
+        const hasGLInsurance = getFormValue(this, [
+            { selector: 'input[name="has_gl_insurance"]:checked' },
+            { selector: '[name="has_gl_insurance"]:checked' }
+        ]) || 'Not specified';
+
+        const hasWCInsurance = getFormValue(this, [
+            { selector: 'input[name="has_wc_insurance"]:checked' },
+            { selector: '[name="has_wc_insurance"]:checked' }
+        ]) || 'Not specified';
+
+        const hasCrewTools = getFormValue(this, [
+            { selector: 'input[name="has_crew_tools"]:checked' },
+            { selector: '[name="has_crew_tools"]:checked' }
+        ]) || 'Not specified';
+
+        const crewSize = getFormValue(this, [
+            { selector: '#crew_size' },
+            { selector: '[name="crew_size"]' }
+        ]) || 'Not specified';
+
+        const weeklyCapacity = getFormValue(this, [
+            { selector: '#weekly_capacity' },
+            { selector: '[name="weekly_capacity"]' }
+        ]) || 'Not specified';
+
+        const references = getFormValue(this, [
+            { selector: '#references' },
+            { selector: '[name="references"]' }
+        ]) || 'Not provided';
+
+        const agreeTerms = this.querySelector('#agree_terms, [name="agree_terms"]')?.checked ? 'Yes' : 'No';
+
+        // Build email body
+        const subject = `New Subcontractor Application - ${businessName}`;
+        const body = `New Subcontractor Application Received
+
+Company & Contact Details:
+--------------------------
+Business Name: ${businessName}
+Trade Specialty: ${tradeSpecialty}
+Principal Contact: ${principalName}
+Phone: ${phone}
+Email: ${email}
+
+Compliance & Verification:
+--------------------------
+Active CT HIC/Trade License: ${hasLicense}
+${hasLicense === 'Yes' ? `License Number: ${licenseNumber}` : ''}
+$1M General Liability Insurance: ${hasGLInsurance}
+Workers' Comp / Statutory Waiver: ${hasWCInsurance}
+Own Crew, Tools & Transportation: ${hasCrewTools}
+
+Operational Capacity:
+---------------------
+Active Crew Members: ${crewSize}
+Weekly Availability (Hartford County): ${weeklyCapacity}
+
+References / Recent Projects:
+-----------------------------
+${references}
+
+Agreement Acceptance:
+---------------------
+Subcontractor MSA Terms Accepted: ${agreeTerms}
+
+Attachments:
+------------
+Certificate of Insurance (COI): ${coiFile ? coiFile.name + ' (' + (coiFile.size / 1024).toFixed(1) + ' KB)' : 'Not uploaded'}
+License Verification: ${licenseFile ? licenseFile.name + ' (' + (licenseFile.size / 1024).toFixed(1) + ' KB)' : 'Not uploaded'}
+
+---
+Sent from Cadre & Consilium Group Website
+${new Date().toLocaleString()}
+`;
+
+        // Build mailto URL
+        const mailtoUrl = buildMailtoUrl(subject, body);
 
         // Set button to loading state
-        submitBtn.textContent = 'Submitting...';
+        submitBtn.textContent = 'Opening Email App...';
         submitBtn.disabled = true;
 
-        try {
-            const formData = new FormData(subcontractorForm);
-            // NOTE: Replace 'YOUR_FORMSPREE_FORM_ID' with your actual Formspree form ID
-            // Format: https://formspree.io/f/YOUR_FORM_ID
-            const response = await fetch('https://formspree.io/f/YOUR_FORMSPREE_FORM_ID', {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
+        // Open mailto
+        window.location.href = mailtoUrl;
 
-            if (response.ok) {
-                // Success message
-                const msg = document.createElement('div');
-                msg.className = 'form-message success';
-                msg.innerHTML = '<strong>Application Received!</strong> Our project management team will review your qualifications and contact you within 24-48 hours.';
-                subcontractorForm.appendChild(msg);
-                subcontractorForm.reset();
-                licenseNumberField.hidden = true;
-                licenseNumberInput.required = false;
+        // Show success UI
+        setTimeout(() => {
+            showMailtoSuccess(this, 'Application Ready to Send!', mailtoUrl);
+            // Reset form (but keep file inputs as they can't be programmatically reset)
+            this.reset();
+            licenseNumberField.hidden = true;
+            licenseNumberInput.required = false;
 
-                // Scroll to message
-                msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-                // Auto-close modal after 3 seconds
-                setTimeout(() => closeModal(subcontractorModal), 3000);
-            } else {
-                throw new Error('Form submission failed');
-            }
-        } catch (error) {
-            // Error message with fallback email
-            const msg = document.createElement('div');
-            msg.className = 'form-message error';
-            msg.innerHTML = 'Sorry, there was an error submitting your application. Please email us directly at <a href="mailto:cadre.projectmanager@gmail.com">cadre.projectmanager@gmail.com</a> with your details.';
-            subcontractorForm.appendChild(msg);
-            msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        } finally {
-            // Restore button state
+            // Restore button
             submitBtn.textContent = originalBtnText;
             submitBtn.disabled = false;
-        }
+        }, 500);
     });
 }
 
-// Contact form submission
+// Contact form submission (mailto handler) - handles both index.html and pages/contact.html
 const contactForm = document.getElementById('contactForm');
 if (contactForm) {
-    contactForm.addEventListener('submit', async function (e) {
+    contactForm.addEventListener('submit', function (e) {
         e.preventDefault();
 
-        const submitBtn = contactForm.querySelector('button[type="submit"]');
-        const originalBtnText = submitBtn.textContent;
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn ? submitBtn.textContent : 'Submit';
 
-        const oldMsg = contactForm.querySelector('.form-message');
-        if (oldMsg) oldMsg.remove();
-
-        submitBtn.textContent = 'Sending...';
-        submitBtn.disabled = true;
-
-        try {
-            const formData = new FormData(contactForm);
-            // NOTE: Replace 'YOUR_FORMSPREE_FORM_ID' with your actual Formspree form ID
-            // Format: https://formspree.io/f/YOUR_FORM_ID
-            const response = await fetch('https://formspree.io/f/YOUR_FORMSPREE_FORM_ID', {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
-
-            if (response.ok) {
-                const msg = document.createElement('p');
-                msg.className = 'form-message success';
-                msg.textContent = 'Thank you! Your message has been sent to Cadre & Consilium Group. We will review your inquiry and respond shortly.';
-                contactForm.appendChild(msg);
-                contactForm.reset();
-            } else {
-                throw new Error('Form submission failed');
-            }
-        } catch (error) {
-            const msg = document.createElement('p');
-            msg.className = 'form-message error';
-            msg.innerHTML = 'Sorry, there was an error sending your message. Please email us directly at <a href="mailto:cadre.projectmanager@gmail.com">cadre.projectmanager@gmail.com</a>.';
-            contactForm.appendChild(msg);
-        } finally {
-            submitBtn.textContent = originalBtnText;
-            submitBtn.disabled = false;
+        // Client-side validation
+        const invalidField = validateRequiredFields(this);
+        if (invalidField) {
+            invalidField.focus();
+            return;
         }
+
+        // Extract form data - supports both field naming conventions
+        const inquiryType = getFormValue(this, [
+            { selector: '#inquiry_type' },
+            { selector: '[name="inquiry_type"]' }
+        ]) || 'homeowner';
+
+        const fullName = getFormValue(this, [
+            { selector: '#full_name' },
+            { selector: '#name' },
+            { selector: '[name="full_name"]' },
+            { selector: '[name="name"]' }
+        ]) || 'Not provided';
+
+        const phone = getFormValue(this, [
+            { selector: '#phone' },
+            { selector: '[name="phone"]' }
+        ]) || 'Not provided';
+
+        const email = getFormValue(this, [
+            { selector: '#email' },
+            { selector: '[name="email"]' }
+        ]) || 'Not provided';
+
+        const cityTown = getFormValue(this, [
+            { selector: '#city_town' },
+            { selector: '#city' },
+            { selector: '[name="city_town"]' },
+            { selector: '[name="city"]' }
+        ]) || 'Not provided';
+
+        const message = getFormValue(this, [
+            { selector: '#message' },
+            { selector: '[name="message"]' }
+        ]) || 'No message provided';
+
+        // Build email body
+        const subject = `New Website Inquiry - ${fullName} (${inquiryType === 'subcontractor' ? 'Subcontractor' : 'Homeowner'})`;
+        const body = `New Website Inquiry Received
+
+Inquiry Type: ${inquiryType === 'subcontractor' ? 'Subcontractor Application' : 'Homeowner Estimate Request'}
+
+Contact Details:
+----------------
+Name: ${fullName}
+Phone: ${phone}
+Email: ${email}
+City/Town: ${cityTown}
+
+Message:
+--------
+${message}
+
+---
+Sent from Cadre & Consilium Group Website
+${new Date().toLocaleString()}
+`;
+
+        // Build mailto URL
+        const mailtoUrl = buildMailtoUrl(subject, body);
+
+        // Set button to loading state
+        if (submitBtn) {
+            submitBtn.textContent = 'Opening Email App...';
+            submitBtn.disabled = true;
+        }
+
+        // Open mailto
+        window.location.href = mailtoUrl;
+
+        // Show success UI
+        setTimeout(() => {
+            showMailtoSuccess(this, 'Message Ready to Send!', mailtoUrl);
+            this.reset();
+
+            // Restore button
+            if (submitBtn) {
+                submitBtn.textContent = originalBtnText;
+                submitBtn.disabled = false;
+            }
+        }, 500);
     });
 }
 

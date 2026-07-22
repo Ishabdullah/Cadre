@@ -355,16 +355,19 @@
     <!-- Radio selector for user type -->
     <div class="radio-selector">
       <label>
-        <input type="radio" name="user-type" value="homeowner" checked>
+        <input type="radio" name="user-type" value="homeowner" checked onchange="document.getElementById('inquiry_type').value='homeowner'">
         Homeowner – Request an Estimate
       </label>
       <label>
-        <input type="radio" name="user-type" value="subcontractor">
+        <input type="radio" name="user-type" value="subcontractor" onchange="document.getElementById('inquiry_type').value='subcontractor'">
         Subcontractor – Apply for Work
       </label>
     </div>
 
     <form id="contactForm">
+      <!-- Hidden field for inquiry type from radio selector -->
+      <input type="hidden" name="inquiry_type" id="inquiry_type" value="homeowner">
+
       <div class="form-group">
         <label for="name">Full Name</label>
         <input type="text" id="name" name="name" required placeholder="Your name">
