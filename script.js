@@ -10,13 +10,17 @@ if (toggle && menu) {
     toggle.addEventListener('click', () => menu.classList.toggle('open'));
 }
 
-// Smooth scrolling for anchor links
+// Smooth scrolling for anchor links + close mobile menu
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
         if (target) {
             target.scrollIntoView({ behavior: 'smooth' });
+        }
+        // Close mobile menu if open
+        if (menu && menu.classList.contains('open')) {
+            menu.classList.remove('open');
         }
     });
 });
@@ -460,12 +464,3 @@ ${new Date().toLocaleString()}
         }, 500);
     });
 }
-
-// Mobile menu close on link click
-document.querySelectorAll('.nav-menu a').forEach(link => {
-    link.addEventListener('click', () => {
-        if (menu && menu.classList.contains('open')) {
-            menu.classList.remove('open');
-        }
-    });
-});
