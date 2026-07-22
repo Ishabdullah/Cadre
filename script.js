@@ -212,19 +212,6 @@ licenseRadios.forEach(radio => {
     });
 });
 
-// File input validation (max 5MB)
-const fileInputs = document.querySelectorAll('#coi_upload, #license_upload');
-const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
-fileInputs.forEach(input => {
-    input.addEventListener('change', () => {
-        const file = input.files[0];
-        if (file && file.size > MAX_FILE_SIZE) {
-            alert(`File "${file.name}" exceeds 5MB limit. Please select a smaller file.`);
-            input.value = '';
-        }
-    });
-});
-
 // Subcontractor form submission (mailto handler)
 if (subcontractorForm) {
     subcontractorForm.addEventListener('submit', function (e) {
@@ -237,14 +224,6 @@ if (subcontractorForm) {
         const invalidField = validateRequiredFields(this);
         if (invalidField) {
             invalidField.focus();
-            return;
-        }
-
-        // Validate file inputs have files
-        const coiFile = document.getElementById('coi_upload').files[0];
-        const licenseFile = document.getElementById('license_upload').files[0];
-        if (!coiFile || !licenseFile) {
-            showFormError(this, 'Please upload both Certificate of Insurance and License Verification documents.');
             return;
         }
 
@@ -316,22 +295,26 @@ if (subcontractorForm) {
 
         const agreeTerms = this.querySelector('#agree_terms, [name="agree_terms"]')?.checked ? 'Yes' : 'No';
 
-        // Build email body
+        // Build email body with attachment checklist
         const subject = `New Subcontractor Application - ${businessName}`;
-        const body = `New Subcontractor Application Received
+        const body = `--- REQUIRED ATTACHMENTS CHECKLIST ---
+Please attach the following files to this email before sending:
+[ ] Copy of CT HIC / Trade License
+[ ] Certificate of Insurance (COI)
+[ ] W-9 Form
 
-Company & Contact Details:
---------------------------
-Business Name: ${businessName}
-Trade Specialty: ${tradeSpecialty}
-Principal Contact: ${principalName}
+--- APPLICANT DETAILS ---
+Company Name: ${businessName}
+Contact Name: ${principalName}
 Phone: ${phone}
 Email: ${email}
+Trade Specialty: ${tradeSpecialty}
+License #: ${licenseNumber || 'Not provided'}
+Insurance Provider & Policy #: ${hasGLInsurance === 'Yes' ? 'Provided - see attached COI' : 'Not specified'}
 
 Compliance & Verification:
 --------------------------
 Active CT HIC/Trade License: ${hasLicense}
-${hasLicense === 'Yes' ? `License Number: ${licenseNumber}` : ''}
 $1M General Liability Insurance: ${hasGLInsurance}
 Workers' Comp / Statutory Waiver: ${hasWCInsurance}
 Own Crew, Tools & Transportation: ${hasCrewTools}
@@ -348,11 +331,6 @@ ${references}
 Agreement Acceptance:
 ---------------------
 Subcontractor MSA Terms Accepted: ${agreeTerms}
-
-Attachments:
-------------
-Certificate of Insurance (COI): ${coiFile ? coiFile.name + ' (' + (coiFile.size / 1024).toFixed(1) + ' KB)' : 'Not uploaded'}
-License Verification: ${licenseFile ? licenseFile.name + ' (' + (licenseFile.size / 1024).toFixed(1) + ' KB)' : 'Not uploaded'}
 
 ---
 Sent from Cadre & Consilium Group Website
@@ -371,7 +349,7 @@ ${new Date().toLocaleString()}
 
         // Show success UI
         setTimeout(() => {
-            showMailtoSuccess(this, 'Application Ready to Send!', mailtoUrl);
+            showMailtoSuccess(this, 'Application Ready to Send! Don\'t forget to attach your COI and License documents to the email before tapping Send.', mailtoUrl);
             // Reset form (but keep file inputs as they can't be programmatically reset)
             this.reset();
             licenseNumberField.hidden = true;

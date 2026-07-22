@@ -689,3 +689,92 @@ button:hover {
     width: 100%;
   }
 }
+
+/*====================================
+  Document Checklist Styles (Subcontractor Form)
+====================================*/
+.document-guidance {
+  font-size: 0.9rem;
+  color: rgba(248, 250, 252, 0.85);
+  margin: -0.5rem 0 1.25rem;
+  line-height: 1.6;
+}
+.document-guidance strong {
+  color: var(--bronze);
+}
+
+.document-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  margin-bottom: 1.5rem;
+}
+.document-item {
+  display: flex;
+  gap: 1rem;
+  background: var(--navy);
+  padding: 1rem 1.25rem;
+  border-radius: 6px;
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  align-items: flex-start;
+}
+.document-item.required {
+  border-color: rgba(212, 175, 55, 0.4);
+}
+.doc-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+.doc-details {
+  flex: 1;
+  min-width: 0;
+}
+.doc-details strong {
+  display: block;
+  font-size: 0.95rem;
+  color: var(--offwhite);
+  margin-bottom: 0.25rem;
+}
+.doc-req {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--bronze);
+  background: rgba(212, 175, 55, 0.15);
+  padding: 0.125rem 0.5rem;
+  border-radius: 3px;
+  margin-bottom: 0.375rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.doc-detail {
+  margin: 0;
+  font-size: 0.825rem;
+  color: rgba(248, 250, 252, 0.7);
+  line-height: 1.5;
+}
+.doc-detail strong {
+  color: var(--bronze);
+  font-weight: 700;
+}
+
+.submit-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: rgba(212, 175, 55, 0.12);
+  border: 2px solid var(--bronze);
+  border-radius: 6px;
+  padding: 1rem 1.25rem;
+  margin-top: 0.5rem;
+}
+.submit-notice strong {
+  color: var(--bronze);
+}
+.submit-notice p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--offwhite);
+  line-height: 1.5;
+}

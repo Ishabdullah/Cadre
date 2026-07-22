@@ -158,22 +158,40 @@
           </div>
         </fieldset>
 
-        <!-- Section 4: Document Upload -->
+        <!-- Section 4: Required Verification Documents (Attach to Email) -->
         <fieldset class="form-section">
-          <legend>Document Upload</legend>
-          <p class="section-hint">Upload your Certificate of Insurance (COI) and/or License verification. Max 5MB each.</p>
+          <legend>Required Verification Documents</legend>
+          <p class="section-hint document-guidance">When you click <strong>Submit Application</strong>, your default email app will open with a pre-filled draft. <strong>You must attach the following documents to the email before sending:</strong></p>
 
-          <div class="form-row">
-            <div class="form-group">
-              <label for="coi_upload">Certificate of Insurance (COI) <span class="required" aria-hidden="true">*</span></label>
-              <input type="file" id="coi_upload" name="coi_upload" accept=".pdf,.jpg,.jpeg,.png" required aria-required="true">
-              <small class="file-hint">PDF, JPG, or PNG • Max 5MB</small>
+          <div class="document-checklist">
+            <div class="document-item required">
+              <span class="doc-icon">📄</span>
+              <div class="doc-details">
+                <strong>Certificate of Insurance (COI)</strong>
+                <span class="doc-req">Required</span>
+                <p class="doc-detail">$1M General Liability listing <strong>Cadre & Consilium Group, LLC</strong> as additional insured / certificate holder.</p>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="license_upload">License Verification <span class="required" aria-hidden="true">*</span></label>
-              <input type="file" id="license_upload" name="license_upload" accept=".pdf,.jpg,.jpeg,.png" required aria-required="true">
-              <small class="file-hint">PDF, JPG, or PNG • Max 5MB</small>
+            <div class="document-item required">
+              <span class="doc-icon">🪪</span>
+              <div class="doc-details">
+                <strong>Copy of Active CT HIC License or Trade License</strong>
+                <span class="doc-req">Required</span>
+                <p class="doc-detail">Connecticut Home Improvement Contractor license or applicable trade license (Electrical E-1/E-2, Plumbing P-1/P-2, etc.).</p>
+              </div>
             </div>
+            <div class="document-item required">
+              <span class="doc-icon">📝</span>
+              <div class="doc-details">
+                <strong>W-9 Form (or IRS EIN Confirmation)</strong>
+                <span class="doc-req">Required</span>
+                <p class="doc-detail">For 1099 tax reporting as an independent subcontractor.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="submit-notice" role="alert">
+            📌 <strong>Note:</strong> When you click <strong>Submit Application</strong>, your default email app will open. <strong>Please ATTACH your COI, CT License, and W-9 directly to the email draft before hitting Send!</strong>
           </div>
         </fieldset>
 
