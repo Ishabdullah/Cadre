@@ -31,13 +31,260 @@
     </nav>
   </header>
 
+  <!-- Subcontractor Onboarding Modal -->
+  <div id="subcontractorModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+    <div class="modal-container">
+      <header class="modal-header">
+        <h2 id="modalTitle">Subcontractor Onboarding Portal</h2>
+        <button type="button" class="modal-close" aria-label="Close subcontractor application">&times;</button>
+      </header>
+
+      <form id="subcontractorForm" class="modal-form" novalidate>
+        <input type="hidden" name="inquiry_type" value="subcontractor">
+        <input type="hidden" name="_subject" value="New Subcontractor Application - ">
+
+        <!-- Section 1: Company & Contact Details -->
+        <fieldset class="form-section">
+          <legend>Company & Contact Details</legend>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="business_name">Business Name <span class="required" aria-hidden="true">*</span></label>
+              <input type="text" id="business_name" name="business_name" required placeholder="Your Company Name" aria-required="true">
+            </div>
+            <div class="form-group">
+              <label for="trade_specialty">Trade Specialty <span class="required" aria-hidden="true">*</span></label>
+              <select id="trade_specialty" name="trade_specialty" required aria-required="true">
+                <option value="">Select Trade</option>
+                <option value="Painting">Painting</option>
+                <option value="Framing">Framing</option>
+                <option value="Electrical">Electrical</option>
+                <option value="Plumbing">Plumbing</option>
+                <option value="HVAC">HVAC</option>
+                <option value="Drywall/Tile">Drywall/Tile</option>
+                <option value="General Remodeling">General Remodeling</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="principal_name">Principal Contact Name <span class="required" aria-hidden="true">*</span></label>
+              <input type="text" id="principal_name" name="principal_name" required placeholder="Full Name" aria-required="true">
+            </div>
+            <div class="form-group">
+              <label for="sc_phone">Phone <span class="required" aria-hidden="true">*</span></label>
+              <input type="tel" id="sc_phone" name="sc_phone" required placeholder="(860) 555-1234" aria-required="true">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="sc_email">Email <span class="required" aria-hidden="true">*</span></label>
+            <input type="email" id="sc_email" name="sc_email" required placeholder="you@company.com" aria-required="true">
+          </div>
+        </fieldset>
+
+        <!-- Section 2: Compliance & Verification Checklist -->
+        <fieldset class="form-section">
+          <legend>Compliance & Verification Checklist</legend>
+          <p class="section-hint">All items are required for onboarding with Cadre & Consilium Group.</p>
+
+          <div class="checklist-grid">
+            <div class="checklist-item">
+              <label class="radio-group">
+                <span class="radio-label">Active CT HIC License / Trade License?</span>
+                <div class="radio-options">
+                  <label><input type="radio" name="has_license" value="Yes" required> Yes</label>
+                  <label><input type="radio" name="has_license" value="No"> No</label>
+                </div>
+              </label>
+              <div class="conditional-field" id="license_number_field" hidden>
+                <label for="license_number">License Number <span class="required" aria-hidden="true">*</span></label>
+                <input type="text" id="license_number" name="license_number" placeholder="e.g., HIC.123456 or E-123456">
+              </div>
+            </div>
+
+            <div class="checklist-item">
+              <label class="radio-group">
+                <span class="radio-label">$1M General Liability Insurance?</span>
+                <div class="radio-options">
+                  <label><input type="radio" name="has_gl_insurance" value="Yes" required> Yes</label>
+                  <label><input type="radio" name="has_gl_insurance" value="No"> No</label>
+                </div>
+              </label>
+            </div>
+
+            <div class="checklist-item">
+              <label class="radio-group">
+                <span class="radio-label">Workers' Comp Insurance or Statutory Waiver?</span>
+                <div class="radio-options">
+                  <label><input type="radio" name="has_wc_insurance" value="Yes" required> Yes</label>
+                  <label><input type="radio" name="has_wc_insurance" value="No"> No</label>
+                </div>
+              </label>
+            </div>
+
+            <div class="checklist-item">
+              <label class="radio-group">
+                <span class="radio-label">Own Crew, Tools & Reliable Transportation?</span>
+                <div class="radio-options">
+                  <label><input type="radio" name="has_crew_tools" value="Yes" required> Yes</label>
+                  <label><input type="radio" name="has_crew_tools" value="No"> No</label>
+                </div>
+              </label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Section 3: Operational Questions -->
+        <fieldset class="form-section">
+          <legend>Operational Capacity</legend>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="crew_size">Active Crew Members <span class="required" aria-hidden="true">*</span></label>
+              <input type="number" id="crew_size" name="crew_size" min="1" max="100" required placeholder="e.g., 4" aria-required="true">
+            </div>
+            <div class="form-group">
+              <label for="weekly_capacity">Weekly Availability in Hartford County <span class="required" aria-hidden="true">*</span></label>
+              <input type="text" id="weekly_capacity" name="weekly_capacity" required placeholder="e.g., 2-3 projects, 40+ hrs/week" aria-required="true">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="references">Recent References / Major Projects <span class="required" aria-hidden="true">*</span></label>
+            <textarea id="references" name="references" rows="4" required placeholder="List 2-3 recent residential projects or references with contact info" aria-required="true"></textarea>
+          </div>
+        </fieldset>
+
+        <!-- Section 4: Document Upload -->
+        <fieldset class="form-section">
+          <legend>Document Upload</legend>
+          <p class="section-hint">Upload your Certificate of Insurance (COI) and/or License verification. Max 5MB each.</p>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="coi_upload">Certificate of Insurance (COI) <span class="required" aria-hidden="true">*</span></label>
+              <input type="file" id="coi_upload" name="coi_upload" accept=".pdf,.jpg,.jpeg,.png" required aria-required="true">
+              <small class="file-hint">PDF, JPG, or PNG • Max 5MB</small>
+            </div>
+            <div class="form-group">
+              <label for="license_upload">License Verification <span class="required" aria-hidden="true">*</span></label>
+              <input type="file" id="license_upload" name="license_upload" accept=".pdf,.jpg,.jpeg,.png" required aria-required="true">
+              <small class="file-hint">PDF, JPG, or PNG • Max 5MB</small>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Section 5: Subcontractor Agreement Review -->
+        <fieldset class="form-section agreement-section">
+          <legend>Subcontractor Master Services Agreement (MSA)</legend>
+
+          <div class="agreement-box">
+            <p>Review our standard terms before applying. All subcontractors operate under a fixed Work Order system with 7-day final settlement upon inspection sign-off.</p>
+
+            <div class="agreement-actions">
+              <button type="button" class="cta-secondary" id="reviewAgreementBtn">Review Agreement Standard Terms</button>
+              <a href="#" class="cta-secondary" id="downloadAgreementBtn" download>Download Agreement Template (PDF)</a>
+            </div>
+          </div>
+
+          <div class="form-group agreement-acceptance">
+            <label class="checkbox-wrapper">
+              <input type="checkbox" name="agree_terms" id="agree_terms" required aria-required="true">
+              <span class="checkmark"></span>
+              I have reviewed and agree to the Subcontractor MSA terms and conditions
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- Submit Button -->
+        <div class="modal-actions">
+          <button type="button" class="cta-secondary modal-close-btn">Cancel</button>
+          <button type="submit" class="cta-primary" id="submitSubcontractorBtn">Submit Application</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Agreement Terms Modal (Nested) -->
+  <div id="agreementModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="agreementTitle" hidden>
+    <div class="modal-container agreement-modal">
+      <header class="modal-header">
+        <h2 id="agreementTitle">Subcontractor MSA - Standard Terms</h2>
+        <button type="button" class="modal-close" aria-label="Close agreement terms">&times;</button>
+      </header>
+
+      <div class="agreement-content">
+        <section class="agreement-clause">
+          <h3>1. Scope & Work Orders</h3>
+          <p>All work is performed under fixed-price Work Orders issued by Cadre & Consilium Group, LLC. Each Work Order defines scope, specifications, timeline, and compensation. No work shall commence without a signed Work Order.</p>
+        </section>
+
+        <section class="agreement-clause">
+          <h3>2. Compensation & Payment Terms</h3>
+          <ul>
+            <li>Fixed pricing per Work Order — no cost-plus or time-and-materials without written change order.</li>
+            <li>Progress payments per schedule defined in each Work Order.</li>
+            <li><strong>Final settlement within 7 calendar days</strong> of inspection sign-off and punch-list completion.</li>
+            <li>Invoices submitted via email to <code>cadre.projectmanager@gmail.com</code> with Work Order reference.</li>
+          </ul>
+        </section>
+
+        <section class="agreement-clause">
+          <h3>3. Insurance & Compliance</h3>
+          <ul>
+            <li>Active CT Home Improvement Contractor (HIC) license or applicable Trade License required.</li>
+            <li>Minimum $1,000,000 General Liability Insurance; Certificate of Insurance (COI) naming Cadre & Consilium Group, LLC as additional insured.</li>
+            <li>Workers' Compensation Insurance or valid Statutory Waiver on file.</li>
+            <li>All licenses and insurance must remain current throughout engagement.</li>
+          </ul>
+        </section>
+
+        <section class="agreement-clause">
+          <h3>4. Safety, Quality & Scope Compliance</h3>
+          <ul>
+            <li>Compliance with OSHA, CT building codes, and site-specific safety plans.</li>
+            <li>Work performed in a workmanlike manner per industry standards and manufacturer specifications.</li>
+            <li>No scope deviations without written Change Order approved by Project Manager.</li>
+            <li>Daily cleanup and site protection required.</li>
+          </ul>
+        </section>
+
+        <section class="agreement-clause">
+          <h3>5. Independent Contractor Status</h3>
+          <p>Subcontractor is an independent 1099 contractor. No employee relationship, partnership, or joint venture is created. Subcontractor is solely responsible for all taxes, benefits, and employment obligations for their personnel.</p>
+        </section>
+
+        <section class="agreement-clause">
+          <h3>6. Term & Termination</h3>
+          <ul>
+            <li>Agreement commences upon execution and continues until terminated by either party with 30 days written notice.</li>
+            <li>Cadre may terminate immediately for cause (safety violations, license/insurance lapse, quality failures).</li>
+            <li>Completed Work Orders survive termination and are paid per terms.</li>
+          </ul>
+        </section>
+
+        <section class="agreement-clause">
+          <h3>7. Confidentiality & Non-Solicitation</h3>
+          <p>Subcontractor shall not disclose project details, client information, or Cadre's proprietary processes. Non-solicitation of Cadre clients and employees for 12 months post-engagement.</p>
+        </section>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="cta-primary" id="closeAgreementBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Hero Section -->
   <section id="home" class="hero">
     <img src="assets/logos/cadre-logo.png" alt="Cadre & Consilium Group Logo" class="hero-logo">
     <h1>Building Precision & Excellence in Connecticut Residential Remodeling</h1>
     <p class="subhead">Full-service general contracting, structural renovations, and complete residential transformations across Hartford County.</p>
     <a href="pages/contact.html" class="cta-primary">Request a Consultation</a>
-    <a href="#subcontractors" class="cta-secondary">Join Our Trade Network (Subcontractors)</a>
+    <button class="cta-secondary" id="openSubcontractorModalHero" type="button">Join Our Trade Network (Subcontractors)</button>
   </section>
 
   <!-- Services Section -->
@@ -71,7 +318,7 @@
   <section id="subcontractors" class="subcontractor-section">
     <h2>Trade Partners</h2>
     <p>Qualified 1099 subcontractors receive fixed work orders, fair market rates, weekly payouts, and a fast 7‑day final settlement upon inspection sign‑off.</p>
-    <button class="cta-sub">Apply as a Subcontractor</button>
+    <button class="cta-sub" id="openSubcontractorModal" type="button">Apply as a Subcontractor</button>
   </section>
 
   <!-- About Section -->
