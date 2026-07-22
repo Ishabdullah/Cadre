@@ -174,6 +174,7 @@ document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         if (!subcontractorModal.hidden) closeModal(subcontractorModal);
         if (!agreementModal.hidden) closeModal(agreementModal);
+        if (!preClaimModal.hidden) closeModal(preClaimModal);
     }
 });
 
@@ -198,7 +199,208 @@ if (downloadAgreementBtn) {
     });
 }
 
-// Conditional license number field
+// ============================================
+// PRE-CLAIM ESTIMATE MODAL LOGIC
+// ============================================
+const preClaimModal = document.getElementById('preClaimModal');
+const openPreClaimModal = document.getElementById('openPreClaimModal');
+const preClaimForm = document.getElementById('preClaimForm');
+
+// Open pre-claim modal from service card CTA
+if (openPreClaimModal && preClaimModal) {
+    openPreClaimModal.addEventListener('click', () => openModal(preClaimModal));
+}
+
+// Pre-claim form submission (mailto handler)
+if (preClaimForm) {
+    preClaimForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const submitBtn = document.getElementById('submitPreClaimBtn');
+        const originalBtnText = submitBtn ? submitBtn.textContent : 'Request Free Estimate';
+
+        // Client-side validation
+        const invalidField = validateRequiredFields(this);
+        if (invalidField) {
+            invalidField.focus();
+            return;
+        }
+
+        // Extract form data
+        const fullName = getFormValue(this, [
+            { selector: '#preClaimName' },
+            { selector: '[name="full_name"]' }
+        ]) || 'Not provided';
+
+        const phone = getFormValue(this, [
+            { selector: '#preClaimPhone' },
+            { selector: '[name="phone"]' }
+        ]) || 'Not provided';
+
+        const email = getFormValue(this, [
+            { selector: '#preClaimEmail' },
+            { selector: '[name="email"]' }
+        ]) || 'Not provided';
+
+        const cityTown = getFormValue(this, [
+            { selector: '#preClaimCity' },
+            { selector: '[name="city_town"]' }
+        ]) || 'Not provided';
+
+        const damageType = getFormValue(this, [
+            { selector: '#preClaimDamageType' },
+            { selector: '[name="damage_type"]' }
+        ]) || 'Not specified';
+
+        const description = getFormValue(this, [
+            { selector: '#preClaimDescription' },
+            { selector: '[name="description"]' }
+        ]) || 'No description provided';
+
+        // Build email body
+        const subject = `Free Pre-Claim Estimate Request - ${fullName}`;
+        const body = `New Pre-Claim Construction & Repair Estimate Request
+
+Contact Details:
+----------------
+Name: ${fullName}
+Phone: ${phone}
+Email: ${email}
+Property Location: ${cityTown}
+
+Damage Details:
+---------------
+Type of Damage: ${damageType}
+
+Description:
+${description}
+
+---
+Sent from Cadre & Consilium Group Website - Pre-Claim Estimate Portal
+${new Date().toLocaleString()}
+`;
+
+        // Build mailto URL
+        const mailtoUrl = buildMailtoUrl(subject, body);
+
+        // Set button to loading state
+        if (submitBtn) {
+            submitBtn.textContent = 'Opening Email App...';
+            submitBtn.disabled = true;
+        }
+
+        // Open mailto
+        window.location.href = mailtoUrl;
+
+        // Show success UI
+        setTimeout(() => {
+            showMailtoSuccess(this, 'Estimate Request Ready to Send!', mailtoUrl);
+            this.reset();
+
+            // Restore button
+            if (submitBtn) {
+                submitBtn.textContent = originalBtnText;
+                submitBtn.disabled = false;
+            }
+        }, 500);
+    });
+}
+
+// Pre-Claim form submission (mailto handler)
+const preClaimForm = document.getElementById('preClaimForm');
+if (preClaimForm) {
+    preClaimForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const submitBtn = document.getElementById('submitPreClaimBtn');
+        const originalBtnText = submitBtn ? submitBtn.textContent : 'Submit';
+
+        // Client-side validation
+        const invalidField = validateRequiredFields(this);
+        if (invalidField) {
+            invalidField.focus();
+            return;
+        }
+
+        // Extract form data
+        const fullName = getFormValue(this, [
+            { selector: '#preClaimName' },
+            { selector: '[name="full_name"]' }
+        ]) || 'Not provided';
+
+        const phone = getFormValue(this, [
+            { selector: '#preClaimPhone' },
+            { selector: '[name="phone"]' }
+        ]) || 'Not provided';
+
+        const email = getFormValue(this, [
+            { selector: '#preClaimEmail' },
+            { selector: '[name="email"]' }
+        ]) || 'Not provided';
+
+        const cityTown = getFormValue(this, [
+            { selector: '#preClaimCity' },
+            { selector: '[name="city_town"]' }
+        ]) || 'Not provided';
+
+        const damageType = getFormValue(this, [
+            { selector: '#preClaimDamageType' },
+            { selector: '[name="damage_type"]' }
+        ]) || 'Not specified';
+
+        const description = getFormValue(this, [
+            { selector: '#preClaimDescription' },
+            { selector: '[name="description"]' }
+        ]) || 'No description provided';
+
+        // Build email body
+        const subject = `Free Pre-Claim Estimate Request - ${fullName}`;
+        const body = `Free Pre-Claim Construction & Repair Estimate Request
+
+Contact Details:
+----------------
+Name: ${fullName}
+Phone: ${phone}
+Email: ${email}
+Property City/Town: ${cityTown}
+
+Damage Details:
+---------------
+Type of Damage: ${damageType}
+Description: ${description}
+
+---
+Sent from Cadre & Consilium Group Website
+${new Date().toLocaleString()}
+`;
+
+        // Build mailto URL
+        const mailtoUrl = buildMailtoUrl(subject, body);
+
+        // Set button to loading state
+        if (submitBtn) {
+            submitBtn.textContent = 'Opening Email App...';
+            submitBtn.disabled = true;
+        }
+
+        // Open mailto
+        window.location.href = mailtoUrl;
+
+        // Show success UI
+        setTimeout(() => {
+            showMailtoSuccess(this, 'Request Ready to Send! Your email app will open with a pre-filled message. Please review and tap Send.', mailtoUrl);
+            this.reset();
+
+            // Restore button
+            if (submitBtn) {
+                submitBtn.textContent = originalBtnText;
+                submitBtn.disabled = false;
+            }
+        }, 500);
+    });
+}
+
+// Conditional license number field (Subcontractor form)
 const licenseRadios = document.querySelectorAll('input[name="has_license"]');
 const licenseNumberField = document.getElementById('license_number_field');
 const licenseNumberInput = document.getElementById('license_number');

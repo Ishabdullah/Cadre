@@ -296,6 +296,168 @@
     </div>
   </div>
 
+  <!-- Pre-Claim Construction & Repair Estimate Modal -->
+  <div id="preClaimModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="preClaimTitle" hidden>
+    <div class="modal-container pre-claim-modal">
+      <header class="modal-header">
+        <h2 id="preClaimTitle">Pre-Claim Construction & Repair Estimate</h2>
+        <button type="button" class="modal-close" aria-label="Close pre-claim estimate portal">&times;</button>
+      </header>
+
+      <div class="pre-claim-content">
+        <!-- Header & Offer Details -->
+        <section class="pre-claim-section header-section">
+          <div class="offer-header">
+            <h3>Pre-Claim Construction & Repair Estimate</h3>
+            <p class="subtitle">Professional, builder-led damage assessments and Xactimate® line-item scope evaluations for Connecticut homeowners.</p>
+            <div class="availability-notice">
+              <span class="notice-icon">ℹ️</span>
+              <strong>Offered 100% Free Upon Request & Subject to Schedule Availability.</strong>
+            </div>
+          </div>
+        </section>
+
+        <!-- What We Inspect -->
+        <section class="pre-claim-section">
+          <h3>What We Inspect</h3>
+          <div class="inspection-categories">
+            <div class="inspection-category">
+              <h4>Interior Damage</h4>
+              <ul>
+                <li>Water leaks & plumbing bursts</li>
+                <li>Fire & smoke damage</li>
+                <li>Dry rot & moisture intrusion</li>
+                <li>Structural ceiling & floor joist integrity</li>
+              </ul>
+            </div>
+            <div class="inspection-category">
+              <h4>Exterior Damage</h4>
+              <ul>
+                <li>Vehicle impact & fallen trees</li>
+                <li>Ice dams & roof/siding storm damage</li>
+                <li>Framing & structural damage</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- How It Works (5-Step Process) -->
+        <section class="pre-claim-section">
+          <h3>How It Works — Our 5-Step Compliant Process</h3>
+          <ol class="process-steps">
+            <li>
+              <span class="step-number">1</span>
+              <div class="step-content">
+                <h4>Comprehensive Property Evaluation</h4>
+                <p>On-site interior/exterior walkthrough with high-resolution photo documentation.</p>
+              </div>
+            </li>
+            <li>
+              <span class="step-number">2</span>
+              <div class="step-content">
+                <h4>Xactimate® Line-Item Estimate</h4>
+                <p>Itemized scope mapping real labor costs, material requirements, and local CT building codes.</p>
+              </div>
+            </li>
+            <li>
+              <span class="step-number">3</span>
+              <div class="step-content">
+                <h4>Professional Scope Report</h4>
+                <p>Complete construction damage report delivered directly to the homeowner.</p>
+              </div>
+            </li>
+            <li>
+              <span class="step-number">4</span>
+              <div class="step-content">
+                <h4>On-Site Field Verification</h4>
+                <p>Meeting the insurance carrier's field adjuster on-site to verify physical damage and construction realities.</p>
+              </div>
+            </li>
+            <li>
+              <span class="step-number">5</span>
+              <div class="step-content">
+                <h4>Quality Reconstruction</h4>
+                <p>Executing a standard CT Home Improvement Contract once scope and pricing are finalized.</p>
+              </div>
+            </li>
+          </ol>
+        </section>
+
+        <!-- Compliance & Legal Disclosures -->
+        <section class="pre-claim-section compliance-section">
+          <h3>Compliance & Legal Disclosures</h3>
+
+          <div class="disclosure-box">
+            <h4>Public Adjusting Disclaimer</h4>
+            <p><strong>Cadre & Consilium Group, LLC is a licensed General Contractor (CT HIC).</strong> We write physical construction repair estimates and document building code requirements. We are <strong>NOT Public Adjusters</strong> and do not negotiate insurance policy coverages, argue legal claims, or offer legal representation.</p>
+          </div>
+
+          <div class="disclosure-box">
+            <h4>Deductible Law Notice</h4>
+            <p><strong>In accordance with state law, homeowners are strictly responsible for paying their insurance policy deductible.</strong> We do not waive, rebate, or absorb insurance deductibles.</p>
+          </div>
+        </section>
+
+        <!-- Request Form / CTA -->
+        <section class="pre-claim-section request-section">
+          <h3>Request Your Free Property Evaluation</h3>
+          <p class="section-lead">Complete the form below and we'll reach out to schedule your complimentary on-site assessment.</p>
+
+          <form id="preClaimForm" class="modal-form" novalidate>
+            <input type="hidden" name="inquiry_type" value="pre_claim_estimate">
+            <input type="hidden" name="_subject" value="Free Pre-Claim Estimate Request - ">
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="preClaimName">Full Name <span class="required" aria-hidden="true">*</span></label>
+                <input type="text" id="preClaimName" name="full_name" required placeholder="Your Name" aria-required="true">
+              </div>
+              <div class="form-group">
+                <label for="preClaimPhone">Phone <span class="required" aria-hidden="true">*</span></label>
+                <input type="tel" id="preClaimPhone" name="phone" required placeholder="(860) 555-1234" aria-required="true">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="preClaimEmail">Email <span class="required" aria-hidden="true">*</span></label>
+                <input type="email" id="preClaimEmail" name="email" required placeholder="you@example.com" aria-required="true">
+              </div>
+              <div class="form-group">
+                <label for="preClaimCity">Property City/Town <span class="required" aria-hidden="true">*</span></label>
+                <input type="text" id="preClaimCity" name="city_town" required placeholder="e.g., Wethersfield, CT" aria-required="true">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="preClaimDamageType">Type of Damage <span class="required" aria-hidden="true">*</span></label>
+                <select id="preClaimDamageType" name="damage_type" required aria-required="true">
+                  <option value="">Select Damage Type</option>
+                  <option value="Water">Water / Plumbing</option>
+                  <option value="Fire">Fire / Smoke</option>
+                  <option value="Storm">Storm / Wind / Hail</option>
+                  <option value="Impact">Vehicle / Tree Impact</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="preClaimDescription">Brief Description of Damage <span class="required" aria-hidden="true">*</span></label>
+              <textarea id="preClaimDescription" name="description" rows="4" required placeholder="Describe the damage, when it occurred, and any immediate concerns..." aria-required="true"></textarea>
+            </div>
+
+            <div class="modal-actions">
+              <button type="button" class="cta-secondary modal-close-btn">Cancel</button>
+              <button type="submit" class="cta-primary" id="submitPreClaimBtn">Request Free Estimate</button>
+            </div>
+          </form>
+        </section>
+      </div>
+    </div>
+  </div>
+
   <!-- Hero Section -->
   <section id="home" class="hero">
     <img src="assets/logos/cadre-logo.png" alt="Cadre & Consilium Group Logo" class="hero-logo">
@@ -329,9 +491,11 @@
         <svg viewBox="0 0 24 24" fill="#0A192F"><path d="M12 2L2 7v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V5l-10 3zm5.8 9.2L13 16.5l-1.1-1.1c-.3-.3-.2-.8.1-1l1.2-1.2c.3-.4.5-.4.8 0l3 3c.4.3.4.8 0 1.2z"/></svg>
         <h3>Project Management & Permitting</h3>
       </div>
-      <div class="service-card">
+      <div class="service-card pre-claim-card">
         <svg viewBox="0 0 24 24" fill="#0A192F"><path d="M9 3L5 6v12c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V6l-4-3zm7 14H5v-2h11v2zm0-4H5V6h11v2zm0-4H5V6h11v2zM9 3l4 3H5L9 3z"/></svg>
         <h3>Pre-Claim Construction & Repair Estimate</h3>
+        <span class="service-badge">FREE UPON REQUEST (SUBJECT TO AVAILABILITY)</span>
+        <button type="button" class="cta-primary pre-claim-cta" id="openPreClaimModal">Learn More & Request Free Estimate</button>
       </div>
     </div>
   </section>
