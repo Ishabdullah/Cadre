@@ -289,14 +289,143 @@
           <p>Subcontractor shall not disclose project details, client information, or Cadre's proprietary processes. Non-solicitation of Cadre clients and employees for 12 months post-engagement.</p>
         </section>
       </div>
-
-      <div class="modal-actions">
-        <button type="button" class="cta-primary" id="closeAgreementBtn">Close</button>
-      </div>
     </div>
   </div>
 
-  <!-- Pre-Claim Construction & Repair Estimate Modal -->
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <img src="assets/logos/cadre-logo.png" alt="Cadre & Consilium Group Logo" class="hero-logo">
+    <h1>Building Precision & Excellence in Connecticut Residential Remodeling</h1>
+    <p class="subhead">Full-service general contracting, structural renovations, and complete residential transformations across Hartford County.</p>
+    <a href="#contact" class="cta-primary">Request a Consultation</a>
+    <button class="cta-secondary" id="openSubcontractorModalHero" type="button">Join Our Trade Network (Subcontractors)</button>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services" class="services">
+    <h2>Our Services</h2>
+    <div class="service-grid">
+      <div class="service-card">
+        <svg viewBox="0 0 24 24" fill="#0A192F"><path d="M7 10c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h10l2-2v-6c0-1.1-.9-2-2-2H9V8H7zm9 14c0-1.66-1.34-3-3-3H7c-1.66 0-3 1.34-3 3v6c0 1.66 1.34 3 3 3h10c1.66 0 3-1.34 3-3v-6zM7 8h10v5H7V8zm9 5H7v-5h10v5z"/></svg>
+        <h3>Full Home Remodeling & Additions</h3>
+      </div>
+      <div class="service-card">
+        <svg viewBox="0 0 24 24" fill="#0A192F"><path d="M20 2H4c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H4V2h16v18z"/></svg>
+        <h3>Kitchen & Bathroom Renovations</h3>
+      </div>
+      <div class="service-card">
+        <svg viewBox="0 0 24 24" fill="#0A192F"><path d="M5 20h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14V4H5v2zm0-4H4V4c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2h-2z"/></svg>
+        <h3>Interior & Exterior Finishes</h3>
+      </div>
+      <div class="service-card">
+        <svg viewBox="0 0 24 24" fill="#0A192F"><path d="M12 2L2 5v18c0 3 2.5 5.5 5 5h12c2.5 0 5-2.5 5-5V5l-10-3zM5 8h14v2H5V8zm14 14H5v-2h14v2zm0-4H5V8h14v2z"/></svg>
+        <h3>Structural Repairs & Framing</h3>
+      </div>
+      <div class="service-card">
+        <svg viewBox="0 0 24 24" fill="#0A192F"><path d="M12 2L2 7v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V5l-10 3zm5.8 9.2L13 16.5l-1.1-1.1c-.3-.3-.2-.8.1-1l1.2-1.2c.3-.4.5-.4.8 0l3 3c.4.3.4.8 0 1.2z"/></svg>
+        <h3>Project Management & Permitting</h3>
+      </div>
+      <div class="service-card pre-claim-card">
+        <svg viewBox="0 0 24 24" fill="#0A192F"><path d="M9 3L5 6v12c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V6l-4-3zm7 14H5v-2h11v2zm0-4H5V6h11v2zm0-4H5V6h11v2zM9 3l4 3H5L9 3z"/></svg>
+        <h3>Pre-Claim Construction & Repair Estimate</h3>
+        <span class="service-badge">FREE UPON REQUEST (SUBJECT TO AVAILABILITY)</span>
+        <button type="button" class="cta-primary pre-claim-cta" id="openPreClaimModal">Learn More & Request Free Estimate</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Subcontractor / Trade Partner Section -->
+  <section id="subcontractors" class="subcontractor-section">
+    <h2>Trade Partners</h2>
+    <p>Qualified 1099 subcontractors receive fixed work orders, fair market rates, weekly payouts, and a fast 7‑day final settlement upon inspection sign‑off.</p>
+    <button class="cta-sub" id="openSubcontractorModal" type="button">Apply as a Subcontractor</button>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="about">
+    <h2>About Cadre & Consilium Group, LLC</h2>
+    <p class="lead">Combining traditional trade craftsmanship with modern, tech-driven project orchestration across Connecticut.</p>
+
+    <p>At <strong>Cadre & Consilium Group, LLC</strong>, we are redefining residential contracting. Founded on the principles of structure, precision, and partnership, "Cadre" represents our vetted network of elite trade professionals, while "Consilium" reflects the expert guidance and strategic oversight we bring to every project.</p>
+
+    <div class="about-highlights">
+      <div class="highlight-item">
+        <h3>Systematized Execution</h3>
+        <p>We leverage modern workflow systems and clear scope documentation to keep projects on schedule, within budget, and fully compliant with Connecticut building codes.</p>
+      </div>
+      <div class="highlight-item">
+        <h3>Vetted Trade Network</h3>
+        <p>We collaborate exclusively with licensed, insured, and quality-driven local trade partners who take pride in exceptional craftsmanship.</p>
+      </div>
+      <div class="highlight-item">
+        <h3>Transparent Communication</h3>
+        <p>From fixed work orders to structured progress updates, we maintain complete transparency for homeowners and subcontractors alike.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="contact">
+    <h2>Contact Us</h2>
+
+    <!-- Radio selector for user type -->
+    <div class="radio-selector">
+      <label>
+        <input type="radio" name="user-type" value="homeowner" checked onchange="document.getElementById('inquiry_type').value='homeowner'">
+        Homeowner – Request an Estimate
+      </label>
+      <label>
+        <input type="radio" name="user-type" value="subcontractor" onchange="document.getElementById('inquiry_type').value='subcontractor'">
+        Subcontractor – Apply for Work
+      </label>
+    </div>
+
+    <form id="contactForm">
+      <!-- Hidden field for inquiry type from radio selector -->
+      <input type="hidden" name="inquiry_type" id="inquiry_type" value="homeowner">
+
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" required placeholder="Your name">
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" name="phone" required placeholder="(860) 555‑1234">
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required placeholder="you@example.com">
+      </div>
+      <div class="form-group">
+        <label for="city">City / Town</label>
+        <input type="text" id="city" name="city" required placeholder="Wethersfield, CT">
+      </div>
+      <div class="form-group">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="4" required placeholder="How can we help?"></textarea>
+      </div>
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <div class="contact-info">
+      <p><strong>Company:</strong> Cadre & Consilium Group, LLC</p>
+      <p><strong>Phone:</strong> (860) 470‑6773</p>
+      <p><strong>Email:</strong> cadre.projectmanager@gmail.com</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; <span id="year"></span> Cadre & Consilium Group, LLC. All rights reserved.</p>
+    <ul class="social-links">
+      <li><a href="#">GitHub</a></li>
+      <li><a href="#">LinkedIn</a></li>
+      <li><a href="#">Facebook</a></li>
+    </ul>
+  </footer>
+
+  <!-- Pre-Claim Construction & Repair Estimate Modal (at bottom) -->
   <div id="preClaimModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="preClaimTitle" hidden>
     <div class="modal-container pre-claim-modal">
       <header class="modal-header">
@@ -457,139 +586,6 @@
       </div>
     </div>
   </div>
-
-  <!-- Hero Section -->
-  <section id="home" class="hero">
-    <img src="assets/logos/cadre-logo.png" alt="Cadre & Consilium Group Logo" class="hero-logo">
-    <h1>Building Precision & Excellence in Connecticut Residential Remodeling</h1>
-    <p class="subhead">Full-service general contracting, structural renovations, and complete residential transformations across Hartford County.</p>
-    <a href="#contact" class="cta-primary">Request a Consultation</a>
-    <button class="cta-secondary" id="openSubcontractorModalHero" type="button">Join Our Trade Network (Subcontractors)</button>
-  </section>
-
-  <!-- Services Section -->
-  <section id="services" class="services">
-    <h2>Our Services</h2>
-    <div class="service-grid">
-      <div class="service-card">
-        <svg viewBox="0 0 24 24" fill="#0A192F"><path d="M7 10c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h10l2-2v-6c0-1.1-.9-2-2-2H9V8H7zm9 14c0-1.66-1.34-3-3-3H7c-1.66 0-3 1.34-3 3v6c0 1.66 1.34 3 3 3h10c1.66 0 3-1.34 3-3v-6zM7 8h10v5H7V8zm9 5H7v-5h10v5z"/></svg>
-        <h3>Full Home Remodeling & Additions</h3>
-      </div>
-      <div class="service-card">
-        <svg viewBox="0 0 24 24" fill="#0A192F"><path d="M20 2H4c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H4V2h16v18z"/></svg>
-        <h3>Kitchen & Bathroom Renovations</h3>
-      </div>
-      <div class="service-card">
-        <svg viewBox="0 0 24 24" fill="#0A192F"><path d="M5 20h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14V4H5v2zm0-4H4V4c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2h-2z"/></svg>
-        <h3>Interior & Exterior Finishes</h3>
-      </div>
-      <div class="service-card">
-        <svg viewBox="0 0 24 24" fill="#0A192F"><path d="M12 2L2 5v18c0 3 2.5 5.5 5 5h12c2.5 0 5-2.5 5-5V5l-10-3zM5 8h14v2H5V8zm14 14H5v-2h14v2zm0-4H5V8h14v2z"/></svg>
-        <h3>Structural Repairs & Framing</h3>
-      </div>
-      <div class="service-card">
-        <svg viewBox="0 0 24 24" fill="#0A192F"><path d="M12 2L2 7v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V5l-10 3zm5.8 9.2L13 16.5l-1.1-1.1c-.3-.3-.2-.8.1-1l1.2-1.2c.3-.4.5-.4.8 0l3 3c.4.3.4.8 0 1.2z"/></svg>
-        <h3>Project Management & Permitting</h3>
-      </div>
-      <div class="service-card pre-claim-card">
-        <svg viewBox="0 0 24 24" fill="#0A192F"><path d="M9 3L5 6v12c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V6l-4-3zm7 14H5v-2h11v2zm0-4H5V6h11v2zm0-4H5V6h11v2zM9 3l4 3H5L9 3z"/></svg>
-        <h3>Pre-Claim Construction & Repair Estimate</h3>
-        <span class="service-badge">FREE UPON REQUEST (SUBJECT TO AVAILABILITY)</span>
-        <button type="button" class="cta-primary pre-claim-cta" id="openPreClaimModal">Learn More & Request Free Estimate</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- Subcontractor / Trade Partner Section -->
-  <section id="subcontractors" class="subcontractor-section">
-    <h2>Trade Partners</h2>
-    <p>Qualified 1099 subcontractors receive fixed work orders, fair market rates, weekly payouts, and a fast 7‑day final settlement upon inspection sign‑off.</p>
-    <button class="cta-sub" id="openSubcontractorModal" type="button">Apply as a Subcontractor</button>
-  </section>
-
-  <!-- About Section -->
-  <section id="about" class="about">
-    <h2>About Cadre & Consilium Group, LLC</h2>
-    <p class="lead">Combining traditional trade craftsmanship with modern, tech-driven project orchestration across Connecticut.</p>
-
-    <p>At <strong>Cadre & Consilium Group, LLC</strong>, we are redefining residential contracting. Founded on the principles of structure, precision, and partnership, "Cadre" represents our vetted network of elite trade professionals, while "Consilium" reflects the expert guidance and strategic oversight we bring to every project.</p>
-
-    <div class="about-highlights">
-      <div class="highlight-item">
-        <h3>Systematized Execution</h3>
-        <p>We leverage modern workflow systems and clear scope documentation to keep projects on schedule, within budget, and fully compliant with Connecticut building codes.</p>
-      </div>
-      <div class="highlight-item">
-        <h3>Vetted Trade Network</h3>
-        <p>We collaborate exclusively with licensed, insured, and quality-driven local trade partners who take pride in exceptional craftsmanship.</p>
-      </div>
-      <div class="highlight-item">
-        <h3>Transparent Communication</h3>
-        <p>From fixed work orders to structured progress updates, we maintain complete transparency for homeowners and subcontractors alike.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Contact Section -->
-  <section id="contact" class="contact">
-    <h2>Contact Us</h2>
-
-    <!-- Radio selector for user type -->
-    <div class="radio-selector">
-      <label>
-        <input type="radio" name="user-type" value="homeowner" checked onchange="document.getElementById('inquiry_type').value='homeowner'">
-        Homeowner – Request an Estimate
-      </label>
-      <label>
-        <input type="radio" name="user-type" value="subcontractor" onchange="document.getElementById('inquiry_type').value='subcontractor'">
-        Subcontractor – Apply for Work
-      </label>
-    </div>
-
-    <form id="contactForm">
-      <!-- Hidden field for inquiry type from radio selector -->
-      <input type="hidden" name="inquiry_type" id="inquiry_type" value="homeowner">
-
-      <div class="form-group">
-        <label for="name">Full Name</label>
-        <input type="text" id="name" name="name" required placeholder="Your name">
-      </div>
-      <div class="form-group">
-        <label for="phone">Phone</label>
-        <input type="tel" id="phone" name="phone" required placeholder="(860) 555‑1234">
-      </div>
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required placeholder="you@example.com">
-      </div>
-      <div class="form-group">
-        <label for="city">City / Town</label>
-        <input type="text" id="city" name="city" required placeholder="Wethersfield, CT">
-      </div>
-      <div class="form-group">
-        <label for="message">Message</label>
-        <textarea id="message" name="message" rows="4" required placeholder="How can we help?"></textarea>
-      </div>
-
-      <button type="submit">Submit</button>
-    </form>
-
-    <div class="contact-info">
-      <p><strong>Company:</strong> Cadre & Consilium Group, LLC</p>
-      <p><strong>Phone:</strong> (860) 470‑6773</p>
-      <p><strong>Email:</strong> cadre.projectmanager@gmail.com</p>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <p>&copy; <span id="year"></span> Cadre & Consilium Group, LLC. All rights reserved.</p>
-    <ul class="social-links">
-      <li><a href="#">GitHub</a></li>
-      <li><a href="#">LinkedIn</a></li>
-      <li><a href="#">Facebook</a></li>
-    </ul>
-  </footer>
 
   <script src="script.js" defer></script>
 </body>

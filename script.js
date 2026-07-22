@@ -1,509 +1,307 @@
 // Cadre & Consilium Group, LLC - Main JavaScript
 
-// Populate current year
-document.getElementById('year').textContent = new Date().getFullYear();
+document.addEventListener('DOMContentLoaded', function () {
+    // ==========================================
+    // UTILITY FUNCTIONS
+    // ==========================================
+    const MAILTO_EMAIL = 'cadre.projectmanager@gmail.com';
 
-// Mobile nav toggle
-const toggle = document.querySelector('.nav-toggle');
-const menu = document.querySelector('.nav-menu');
-if (toggle && menu) {
-    toggle.addEventListener('click', () => menu.classList.toggle('open'));
-}
-
-// Smooth scrolling for anchor links + close mobile menu
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({ behavior: 'smooth' });
-        }
-        // Close mobile menu if open
-        if (menu && menu.classList.contains('open')) {
-            menu.classList.remove('open');
-        }
-    });
-});
-
-// ============================================
-// UTILITY: Mailto Handler & Success UI
-// ============================================
-const MAILTO_EMAIL = 'cadre.projectmanager@gmail.com';
-
-/**
- * Build a mailto: URL from form data
- */
-function buildMailtoUrl(subject, body) {
-    const encodedSubject = encodeURIComponent(subject);
-    const encodedBody = encodeURIComponent(body);
-    return `mailto:${MAILTO_EMAIL}?subject=${encodedSubject}&body=${encodedBody}`;
-}
-
-/**
- * Show success banner with mailto link and fallback
- */
-function showMailtoSuccess(form, message, mailtoUrl) {
-    const oldMsg = form.querySelector('.form-message');
-    if (oldMsg) oldMsg.remove();
-
-    const msg = document.createElement('div');
-    msg.className = 'form-message success';
-    msg.innerHTML = `
-        <strong>${message}</strong>
-        <p class="mailto-instruction">Opening your email app... Please review the pre-filled message and tap Send!</p>
-        <p class="mailto-fallback">
-            Didn't open? <a href="${mailtoUrl}" target="_blank" rel="noopener">Click here to send email directly</a>
-            or contact us at <a href="mailto:${MAILTO_EMAIL}">${MAILTO_EMAIL}</a>
-        </p>
-    `;
-    form.appendChild(msg);
-    msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    return msg;
-}
-
-/**
- * Show error banner for validation/other errors
- */
-function showFormError(form, message) {
-    const oldMsg = form.querySelector('.form-message');
-    if (oldMsg) oldMsg.remove();
-
-    const msg = document.createElement('div');
-    msg.className = 'form-message error';
-    msg.innerHTML = message;
-    form.appendChild(msg);
-    msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
-}
-
-/**
- * Validate required fields and return first invalid or null
- */
-function validateRequiredFields(form) {
-    const requiredFields = form.querySelectorAll('[required]');
-    let firstInvalid = null;
-    requiredFields.forEach(field => {
-        if (!field.checkValidity()) {
-            field.reportValidity();
-            if (!firstInvalid) firstInvalid = field;
-        }
-    });
-    return firstInvalid;
-}
-
-/**
- * Extract form field value by trying multiple possible IDs/names
- */
-function getFormValue(form, fieldConfigs) {
-    for (const config of fieldConfigs) {
-        const field = form.querySelector(config.selector);
-        if (field && field.value.trim()) {
-            return field.value.trim();
-        }
+    function buildMailtoUrl(subject, body) {
+        const encodedSubject = encodeURIComponent(subject);
+        const encodedBody = encodeURIComponent(body);
+        return `mailto:${MAILTO_EMAIL}?subject=${encodedSubject}&body=${encodedBody}`;
     }
-    return config.default || '';
-}
 
-// ============================================
-// SUBCONTRACTOR ONBOARDING MODAL LOGIC
-// ============================================
-const subcontractorModal = document.getElementById('subcontractorModal');
-const agreementModal = document.getElementById('agreementModal');
-const subcontractorForm = document.getElementById('subcontractorForm');
+    function showMailtoSuccess(form, message, mailtoUrl) {
+        const oldMsg = form.querySelector('.form-message');
+        if (oldMsg) oldMsg.remove();
 
-// Open modal helpers
-function openModal(modal) {
-    if (!modal) return;
-    modal.hidden = false;
-    document.body.style.overflow = 'hidden';
-    const focusable = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-    if (focusable) focusable.focus();
-    modal.addEventListener('keydown', trapFocus);
-}
-
-function closeModal(modal) {
-    if (!modal) return;
-    modal.hidden = true;
-    document.body.style.overflow = '';
-    modal.removeEventListener('keydown', trapFocus);
-}
-
-function trapFocus(e) {
-    if (e.key !== 'Tab') return;
-    const modal = e.currentTarget;
-    const focusable = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
-    if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
-    } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
+        const msg = document.createElement('div');
+        msg.className = 'form-message success';
+        msg.innerHTML = `
+            <strong>${message}</strong>
+            <p class="mailto-instruction">Opening your email app... Please review the pre-filled message and tap Send!</p>
+            <p class="mailto-fallback">
+                Didn't open? <a href="${mailtoUrl}" target="_blank" rel="noopener">Click here to send email directly</a>
+                or contact us at <a href="mailto:${MAILTO_EMAIL}">${MAILTO_EMAIL}</a>
+            </p>
+        `;
+        form.appendChild(msg);
+        msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return msg;
     }
-}
 
-// Open subcontractor modal from hero CTA
-const openSubcontractorModalHero = document.getElementById('openSubcontractorModalHero');
-if (openSubcontractorModalHero) {
-    openSubcontractorModalHero.addEventListener('click', () => openModal(subcontractorModal));
-}
+    function showFormError(form, message) {
+        const oldMsg = form.querySelector('.form-message');
+        if (oldMsg) oldMsg.remove();
 
-// Open subcontractor modal from trade partners section
-const openSubcontractorModal = document.getElementById('openSubcontractorModal');
-if (openSubcontractorModal) {
-    openSubcontractorModal.addEventListener('click', () => openModal(subcontractorModal));
-}
-
-// Close modals via close buttons
-document.querySelectorAll('.modal-close, .modal-close-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        const modal = btn.closest('.modal-overlay');
-        closeModal(modal);
-    });
-});
-
-// Close modal on overlay click (outside container)
-document.querySelectorAll('.modal-overlay').forEach(overlay => {
-    overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) closeModal(overlay);
-    });
-});
-
-// Close modal on Escape key
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        if (!subcontractorModal.hidden) closeModal(subcontractorModal);
-        if (!agreementModal.hidden) closeModal(agreementModal);
-        if (!preClaimModal.hidden) closeModal(preClaimModal);
+        const msg = document.createElement('div');
+        msg.className = 'form-message error';
+        msg.innerHTML = message;
+        form.appendChild(msg);
+        msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
-});
 
-// Open agreement terms modal
-const reviewAgreementBtn = document.getElementById('reviewAgreementBtn');
-if (reviewAgreementBtn) {
-    reviewAgreementBtn.addEventListener('click', () => openModal(agreementModal));
-}
-
-// Close agreement modal
-const closeAgreementBtn = document.getElementById('closeAgreementBtn');
-if (closeAgreementBtn) {
-    closeAgreementBtn.addEventListener('click', () => closeModal(agreementModal));
-}
-
-// Download agreement placeholder
-const downloadAgreementBtn = document.getElementById('downloadAgreementBtn');
-if (downloadAgreementBtn) {
-    downloadAgreementBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        alert('Agreement template download coming soon. Please contact cadre.projectmanager@gmail.com for a copy.');
-    });
-}
-
-// ============================================
-// PRE-CLAIM ESTIMATE MODAL LOGIC
-// ============================================
-const preClaimModal = document.getElementById('preClaimModal');
-const openPreClaimModal = document.getElementById('openPreClaimModal');
-const preClaimForm = document.getElementById('preClaimForm');
-
-// Open pre-claim modal from service card CTA
-if (openPreClaimModal && preClaimModal) {
-    openPreClaimModal.addEventListener('click', () => openModal(preClaimModal));
-}
-
-// Pre-claim form submission (mailto handler)
-if (preClaimForm) {
-    preClaimForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        const submitBtn = document.getElementById('submitPreClaimBtn');
-        const originalBtnText = submitBtn ? submitBtn.textContent : 'Request Free Estimate';
-
-        // Client-side validation
-        const invalidField = validateRequiredFields(this);
-        if (invalidField) {
-            invalidField.focus();
-            return;
-        }
-
-        // Extract form data
-        const fullName = getFormValue(this, [
-            { selector: '#preClaimName' },
-            { selector: '[name="full_name"]' }
-        ]) || 'Not provided';
-
-        const phone = getFormValue(this, [
-            { selector: '#preClaimPhone' },
-            { selector: '[name="phone"]' }
-        ]) || 'Not provided';
-
-        const email = getFormValue(this, [
-            { selector: '#preClaimEmail' },
-            { selector: '[name="email"]' }
-        ]) || 'Not provided';
-
-        const cityTown = getFormValue(this, [
-            { selector: '#preClaimCity' },
-            { selector: '[name="city_town"]' }
-        ]) || 'Not provided';
-
-        const damageType = getFormValue(this, [
-            { selector: '#preClaimDamageType' },
-            { selector: '[name="damage_type"]' }
-        ]) || 'Not specified';
-
-        const description = getFormValue(this, [
-            { selector: '#preClaimDescription' },
-            { selector: '[name="description"]' }
-        ]) || 'No description provided';
-
-        // Build email body
-        const subject = `Free Pre-Claim Estimate Request - ${fullName}`;
-        const body = `New Pre-Claim Construction & Repair Estimate Request
-
-Contact Details:
-----------------
-Name: ${fullName}
-Phone: ${phone}
-Email: ${email}
-Property Location: ${cityTown}
-
-Damage Details:
----------------
-Type of Damage: ${damageType}
-
-Description:
-${description}
-
----
-Sent from Cadre & Consilium Group Website - Pre-Claim Estimate Portal
-${new Date().toLocaleString()}
-`;
-
-        // Build mailto URL
-        const mailtoUrl = buildMailtoUrl(subject, body);
-
-        // Set button to loading state
-        if (submitBtn) {
-            submitBtn.textContent = 'Opening Email App...';
-            submitBtn.disabled = true;
-        }
-
-        // Open mailto
-        window.location.href = mailtoUrl;
-
-        // Show success UI
-        setTimeout(() => {
-            showMailtoSuccess(this, 'Estimate Request Ready to Send!', mailtoUrl);
-            this.reset();
-
-            // Restore button
-            if (submitBtn) {
-                submitBtn.textContent = originalBtnText;
-                submitBtn.disabled = false;
+    function validateRequiredFields(form) {
+        const requiredFields = form.querySelectorAll('[required]');
+        let firstInvalid = null;
+        requiredFields.forEach(field => {
+            if (!field.checkValidity()) {
+                field.reportValidity();
+                if (!firstInvalid) firstInvalid = field;
             }
-        }, 500);
-    });
-}
+        });
+        return firstInvalid;
+    }
 
-// Pre-Claim form submission (mailto handler)
-const preClaimForm = document.getElementById('preClaimForm');
-if (preClaimForm) {
-    preClaimForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        const submitBtn = document.getElementById('submitPreClaimBtn');
-        const originalBtnText = submitBtn ? submitBtn.textContent : 'Submit';
-
-        // Client-side validation
-        const invalidField = validateRequiredFields(this);
-        if (invalidField) {
-            invalidField.focus();
-            return;
-        }
-
-        // Extract form data
-        const fullName = getFormValue(this, [
-            { selector: '#preClaimName' },
-            { selector: '[name="full_name"]' }
-        ]) || 'Not provided';
-
-        const phone = getFormValue(this, [
-            { selector: '#preClaimPhone' },
-            { selector: '[name="phone"]' }
-        ]) || 'Not provided';
-
-        const email = getFormValue(this, [
-            { selector: '#preClaimEmail' },
-            { selector: '[name="email"]' }
-        ]) || 'Not provided';
-
-        const cityTown = getFormValue(this, [
-            { selector: '#preClaimCity' },
-            { selector: '[name="city_town"]' }
-        ]) || 'Not provided';
-
-        const damageType = getFormValue(this, [
-            { selector: '#preClaimDamageType' },
-            { selector: '[name="damage_type"]' }
-        ]) || 'Not specified';
-
-        const description = getFormValue(this, [
-            { selector: '#preClaimDescription' },
-            { selector: '[name="description"]' }
-        ]) || 'No description provided';
-
-        // Build email body
-        const subject = `Free Pre-Claim Estimate Request - ${fullName}`;
-        const body = `Free Pre-Claim Construction & Repair Estimate Request
-
-Contact Details:
-----------------
-Name: ${fullName}
-Phone: ${phone}
-Email: ${email}
-Property City/Town: ${cityTown}
-
-Damage Details:
----------------
-Type of Damage: ${damageType}
-Description: ${description}
-
----
-Sent from Cadre & Consilium Group Website
-${new Date().toLocaleString()}
-`;
-
-        // Build mailto URL
-        const mailtoUrl = buildMailtoUrl(subject, body);
-
-        // Set button to loading state
-        if (submitBtn) {
-            submitBtn.textContent = 'Opening Email App...';
-            submitBtn.disabled = true;
-        }
-
-        // Open mailto
-        window.location.href = mailtoUrl;
-
-        // Show success UI
-        setTimeout(() => {
-            showMailtoSuccess(this, 'Request Ready to Send! Your email app will open with a pre-filled message. Please review and tap Send.', mailtoUrl);
-            this.reset();
-
-            // Restore button
-            if (submitBtn) {
-                submitBtn.textContent = originalBtnText;
-                submitBtn.disabled = false;
+    function getFormValue(form, fieldConfigs) {
+        for (const config of fieldConfigs) {
+            const field = form.querySelector(config.selector);
+            if (field && field.value.trim()) {
+                return field.value.trim();
             }
-        }, 500);
-    });
-}
+        }
+        return config?.default || '';
+    }
 
-// Conditional license number field (Subcontractor form)
-const licenseRadios = document.querySelectorAll('input[name="has_license"]');
-const licenseNumberField = document.getElementById('license_number_field');
-const licenseNumberInput = document.getElementById('license_number');
-licenseRadios.forEach(radio => {
-    radio.addEventListener('change', () => {
-        if (radio.value === 'Yes') {
-            licenseNumberField.hidden = false;
-            licenseNumberInput.required = true;
-            licenseNumberInput.setAttribute('aria-required', 'true');
-        } else {
-            licenseNumberField.hidden = true;
-            licenseNumberInput.required = false;
-            licenseNumberInput.removeAttribute('aria-required');
+    // ==========================================
+    // MOBILE NAVIGATION TOGGLE
+    // ==========================================
+    const navToggle = document.querySelector('.nav-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+
+    if (navToggle && navMenu) {
+        navToggle.addEventListener('click', () => {
+            const isOpen = navMenu.classList.toggle('open');
+            navToggle.setAttribute('aria-expanded', isOpen);
+            navToggle.setAttribute('aria-label', isOpen ? 'Close navigation' : 'Open navigation');
+        });
+
+        // Close mobile menu when clicking a nav link
+        navMenu.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('open');
+                navToggle.setAttribute('aria-expanded', 'false');
+                navToggle.setAttribute('aria-label', 'Open navigation');
+            });
+        });
+    }
+
+    // ==========================================
+    // SMOOTH SCROLLING FOR ANCHOR LINKS
+    // ==========================================
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (href === '#') return;
+            const target = document.querySelector(href);
+            if (target) {
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+
+    // ==========================================
+    // MODAL HELPERS
+    // ==========================================
+    function openModal(modal) {
+        if (!modal) return;
+        modal.hidden = false;
+        document.body.style.overflow = 'hidden';
+        const focusable = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        if (focusable) focusable.focus();
+        modal.addEventListener('keydown', trapFocus);
+    }
+
+    function closeModal(modal) {
+        if (!modal) return;
+        modal.hidden = true;
+        document.body.style.overflow = '';
+        modal.removeEventListener('keydown', trapFocus);
+    }
+
+    function trapFocus(e) {
+        if (e.key !== 'Tab') return;
+        const modal = e.currentTarget;
+        const focusable = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+        }
+    }
+
+    // Close modal on overlay click
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) closeModal(overlay);
+        });
+    });
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay:not([hidden])').forEach(modal => closeModal(modal));
         }
     });
-});
 
-// Subcontractor form submission (mailto handler)
-if (subcontractorForm) {
-    subcontractorForm.addEventListener('submit', function (e) {
-        e.preventDefault();
+    // ==========================================
+    // SUBCONTRACTOR ONBOARDING MODAL
+    // ==========================================
+    const subcontractorModal = document.getElementById('subcontractorModal');
+    const agreementModal = document.getElementById('agreementModal');
+    const subcontractorForm = document.getElementById('subcontractorForm');
 
-        const submitBtn = document.getElementById('submitSubcontractorBtn');
-        const originalBtnText = submitBtn.textContent;
+    // Open subcontractor modal from hero CTA
+    const openSubcontractorModalHero = document.getElementById('openSubcontractorModalHero');
+    if (openSubcontractorModalHero && subcontractorModal) {
+        openSubcontractorModalHero.addEventListener('click', () => openModal(subcontractorModal));
+    }
 
-        // Client-side validation
-        const invalidField = validateRequiredFields(this);
-        if (invalidField) {
-            invalidField.focus();
-            return;
-        }
+    // Open subcontractor modal from trade partners section
+    const openSubcontractorModal = document.getElementById('openSubcontractorModal');
+    if (openSubcontractorModal && subcontractorModal) {
+        openSubcontractorModal.addEventListener('click', () => openModal(subcontractorModal));
+    }
 
-        // Extract form data
-        const businessName = getFormValue(this, [
-            { selector: '#business_name' },
-            { selector: '[name="business_name"]' }
-        ]) || 'Unknown Company';
+    // Close modals via close buttons
+    document.querySelectorAll('.modal-close, .modal-close-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const modal = btn.closest('.modal-overlay');
+            closeModal(modal);
+        });
+    });
 
-        const tradeSpecialty = getFormValue(this, [
-            { selector: '#trade_specialty' },
-            { selector: '[name="trade_specialty"]' }
-        ]) || 'Not specified';
+    // Open agreement terms modal
+    const reviewAgreementBtn = document.getElementById('reviewAgreementBtn');
+    if (reviewAgreementBtn && agreementModal) {
+        reviewAgreementBtn.addEventListener('click', () => openModal(agreementModal));
+    }
 
-        const principalName = getFormValue(this, [
-            { selector: '#principal_name' },
-            { selector: '[name="principal_name"]' }
-        ]) || 'Not provided';
+    // Close agreement modal
+    const closeAgreementBtn = document.getElementById('closeAgreementBtn');
+    if (closeAgreementBtn && agreementModal) {
+        closeAgreementBtn.addEventListener('click', () => closeModal(agreementModal));
+    }
 
-        const phone = getFormValue(this, [
-            { selector: '#sc_phone' },
-            { selector: '[name="sc_phone"]' }
-        ]) || 'Not provided';
+    // Download agreement placeholder
+    const downloadAgreementBtn = document.getElementById('downloadAgreementBtn');
+    if (downloadAgreementBtn) {
+        downloadAgreementBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Agreement template download coming soon. Please contact cadre.projectmanager@gmail.com for a copy.');
+        });
+    }
 
-        const email = getFormValue(this, [
-            { selector: '#sc_email' },
-            { selector: '[name="sc_email"]' }
-        ]) || 'Not provided';
+    // Conditional license number field
+    const licenseRadios = document.querySelectorAll('input[name="has_license"]');
+    const licenseNumberField = document.getElementById('license_number_field');
+    const licenseNumberInput = document.getElementById('license_number');
+    licenseRadios.forEach(radio => {
+        radio.addEventListener('change', () => {
+            if (radio.value === 'Yes') {
+                licenseNumberField.hidden = false;
+                licenseNumberInput.required = true;
+                licenseNumberInput.setAttribute('aria-required', 'true');
+            } else {
+                licenseNumberField.hidden = true;
+                licenseNumberInput.required = false;
+                licenseNumberInput.removeAttribute('aria-required');
+            }
+        });
+    });
 
-        const hasLicense = getFormValue(this, [
-            { selector: 'input[name="has_license"]:checked' },
-            { selector: '[name="has_license"]:checked' }
-        ]) || 'Not specified';
+    // Subcontractor form submission (mailto handler)
+    if (subcontractorForm) {
+        subcontractorForm.addEventListener('submit', function (e) {
+            e.preventDefault();
 
-        const licenseNumber = getFormValue(this, [
-            { selector: '#license_number' },
-            { selector: '[name="license_number"]' }
-        ]);
+            const submitBtn = document.getElementById('submitSubcontractorBtn');
+            const originalBtnText = submitBtn?.textContent || 'Submit Application';
 
-        const hasGLInsurance = getFormValue(this, [
-            { selector: 'input[name="has_gl_insurance"]:checked' },
-            { selector: '[name="has_gl_insurance"]:checked' }
-        ]) || 'Not specified';
+            // Client-side validation
+            const invalidField = validateRequiredFields(this);
+            if (invalidField) {
+                invalidField.focus();
+                return;
+            }
 
-        const hasWCInsurance = getFormValue(this, [
-            { selector: 'input[name="has_wc_insurance"]:checked' },
-            { selector: '[name="has_wc_insurance"]:checked' }
-        ]) || 'Not specified';
+            // Extract form data
+            const businessName = getFormValue(this, [
+                { selector: '#business_name' },
+                { selector: '[name="business_name"]' }
+            ]) || 'Unknown Company';
 
-        const hasCrewTools = getFormValue(this, [
-            { selector: 'input[name="has_crew_tools"]:checked' },
-            { selector: '[name="has_crew_tools"]:checked' }
-        ]) || 'Not specified';
+            const tradeSpecialty = getFormValue(this, [
+                { selector: '#trade_specialty' },
+                { selector: '[name="trade_specialty"]' }
+            ]) || 'Not specified';
 
-        const crewSize = getFormValue(this, [
-            { selector: '#crew_size' },
-            { selector: '[name="crew_size"]' }
-        ]) || 'Not specified';
+            const principalName = getFormValue(this, [
+                { selector: '#principal_name' },
+                { selector: '[name="principal_name"]' }
+            ]) || 'Not provided';
 
-        const weeklyCapacity = getFormValue(this, [
-            { selector: '#weekly_capacity' },
-            { selector: '[name="weekly_capacity"]' }
-        ]) || 'Not specified';
+            const phone = getFormValue(this, [
+                { selector: '#sc_phone' },
+                { selector: '[name="sc_phone"]' }
+            ]) || 'Not provided';
 
-        const references = getFormValue(this, [
-            { selector: '#references' },
-            { selector: '[name="references"]' }
-        ]) || 'Not provided';
+            const email = getFormValue(this, [
+                { selector: '#sc_email' },
+                { selector: '[name="sc_email"]' }
+            ]) || 'Not provided';
 
-        const agreeTerms = this.querySelector('#agree_terms, [name="agree_terms"]')?.checked ? 'Yes' : 'No';
+            const hasLicense = getFormValue(this, [
+                { selector: 'input[name="has_license"]:checked' },
+                { selector: '[name="has_license"]:checked' }
+            ]) || 'Not specified';
 
-        // Build email body with attachment checklist
-        const subject = `New Subcontractor Application - ${businessName}`;
-        const body = `--- REQUIRED ATTACHMENTS CHECKLIST ---
+            const licenseNumber = getFormValue(this, [
+                { selector: '#license_number' },
+                { selector: '[name="license_number"]' }
+            ]);
+
+            const hasGLInsurance = getFormValue(this, [
+                { selector: 'input[name="has_gl_insurance"]:checked' },
+                { selector: '[name="has_gl_insurance"]:checked' }
+            ]) || 'Not specified';
+
+            const hasWCInsurance = getFormValue(this, [
+                { selector: 'input[name="has_wc_insurance"]:checked' },
+                { selector: '[name="has_wc_insurance"]:checked' }
+            ]) || 'Not specified';
+
+            const hasCrewTools = getFormValue(this, [
+                { selector: 'input[name="has_crew_tools"]:checked' },
+                { selector: '[name="has_crew_tools"]:checked' }
+            ]) || 'Not specified';
+
+            const crewSize = getFormValue(this, [
+                { selector: '#crew_size' },
+                { selector: '[name="crew_size"]' }
+            ]) || 'Not specified';
+
+            const weeklyCapacity = getFormValue(this, [
+                { selector: '#weekly_capacity' },
+                { selector: '[name="weekly_capacity"]' }
+            ]) || 'Not specified';
+
+            const references = getFormValue(this, [
+                { selector: '#references' },
+                { selector: '[name="references"]' }
+            ]) || 'Not provided';
+
+            const agreeTerms = this.querySelector('#agree_terms, [name="agree_terms"]')?.checked ? 'Yes' : 'No';
+
+            // Build email body with attachment checklist
+            const subject = `New Subcontractor Application - ${businessName}`;
+            const body = `--- REQUIRED ATTACHMENTS CHECKLIST ---
 Please attach the following files to this email before sending:
 [ ] Copy of CT HIC / Trade License
 [ ] Certificate of Insurance (COI)
@@ -543,85 +341,197 @@ Sent from Cadre & Consilium Group Website
 ${new Date().toLocaleString()}
 `;
 
-        // Build mailto URL
-        const mailtoUrl = buildMailtoUrl(subject, body);
+            // Build mailto URL
+            const mailtoUrl = buildMailtoUrl(subject, body);
 
-        // Set button to loading state
-        submitBtn.textContent = 'Opening Email App...';
-        submitBtn.disabled = true;
+            // Set button to loading state
+            if (submitBtn) {
+                submitBtn.textContent = 'Opening Email App...';
+                submitBtn.disabled = true;
+            }
 
-        // Open mailto
-        window.location.href = mailtoUrl;
+            // Open mailto
+            window.location.href = mailtoUrl;
 
-        // Show success UI
-        setTimeout(() => {
-            showMailtoSuccess(this, 'Application Ready to Send! Don\'t forget to attach your COI and License documents to the email before tapping Send.', mailtoUrl);
-            // Reset form (but keep file inputs as they can't be programmatically reset)
-            this.reset();
-            licenseNumberField.hidden = true;
-            licenseNumberInput.required = false;
+            // Show success UI
+            setTimeout(() => {
+                showMailtoSuccess(this, 'Application Ready to Send! Don\'t forget to attach your COI and License documents to the email before tapping Send.', mailtoUrl);
+                // Reset form
+                this.reset();
+                licenseNumberField.hidden = true;
+                licenseNumberInput.required = false;
+                licenseNumberInput.removeAttribute('aria-required');
 
-            // Restore button
-            submitBtn.textContent = originalBtnText;
-            submitBtn.disabled = false;
-        }, 500);
-    });
-}
+                // Restore button
+                if (submitBtn) {
+                    submitBtn.textContent = originalBtnText;
+                    submitBtn.disabled = false;
+                }
+            }, 500);
+        });
+    }
 
-// Contact form submission (mailto handler) - handles both index.html and pages/contact.html
-const contactForm = document.getElementById('contactForm');
-if (contactForm) {
-    contactForm.addEventListener('submit', function (e) {
-        e.preventDefault();
+    // ==========================================
+    // PRE-CLAIM ESTIMATE MODAL
+    // ==========================================
+    const preClaimModal = document.getElementById('preClaimModal');
+    const openPreClaimModal = document.getElementById('openPreClaimModal');
+    const preClaimForm = document.getElementById('preClaimForm');
 
-        const submitBtn = this.querySelector('button[type="submit"]');
-        const originalBtnText = submitBtn ? submitBtn.textContent : 'Submit';
+    // Open pre-claim modal from service card CTA
+    if (openPreClaimModal && preClaimModal) {
+        openPreClaimModal.addEventListener('click', () => openModal(preClaimModal));
+    }
 
-        // Client-side validation
-        const invalidField = validateRequiredFields(this);
-        if (invalidField) {
-            invalidField.focus();
-            return;
-        }
+    // Pre-Claim form submission (mailto handler)
+    if (preClaimForm) {
+        preClaimForm.addEventListener('submit', function (e) {
+            e.preventDefault();
 
-        // Extract form data - supports both field naming conventions
-        const inquiryType = getFormValue(this, [
-            { selector: '#inquiry_type' },
-            { selector: '[name="inquiry_type"]' }
-        ]) || 'homeowner';
+            const submitBtn = document.getElementById('submitPreClaimBtn');
+            const originalBtnText = submitBtn?.textContent || 'Request Free Estimate';
 
-        const fullName = getFormValue(this, [
-            { selector: '#full_name' },
-            { selector: '#name' },
-            { selector: '[name="full_name"]' },
-            { selector: '[name="name"]' }
-        ]) || 'Not provided';
+            // Client-side validation
+            const invalidField = validateRequiredFields(this);
+            if (invalidField) {
+                invalidField.focus();
+                return;
+            }
 
-        const phone = getFormValue(this, [
-            { selector: '#phone' },
-            { selector: '[name="phone"]' }
-        ]) || 'Not provided';
+            // Extract form data
+            const fullName = getFormValue(this, [
+                { selector: '#preClaimName' },
+                { selector: '[name="full_name"]' }
+            ]) || 'Not provided';
 
-        const email = getFormValue(this, [
-            { selector: '#email' },
-            { selector: '[name="email"]' }
-        ]) || 'Not provided';
+            const phone = getFormValue(this, [
+                { selector: '#preClaimPhone' },
+                { selector: '[name="phone"]' }
+            ]) || 'Not provided';
 
-        const cityTown = getFormValue(this, [
-            { selector: '#city_town' },
-            { selector: '#city' },
-            { selector: '[name="city_town"]' },
-            { selector: '[name="city"]' }
-        ]) || 'Not provided';
+            const email = getFormValue(this, [
+                { selector: '#preClaimEmail' },
+                { selector: '[name="email"]' }
+            ]) || 'Not provided';
 
-        const message = getFormValue(this, [
-            { selector: '#message' },
-            { selector: '[name="message"]' }
-        ]) || 'No message provided';
+            const cityTown = getFormValue(this, [
+                { selector: '#preClaimCity' },
+                { selector: '[name="city_town"]' }
+            ]) || 'Not provided';
 
-        // Build email body
-        const subject = `New Website Inquiry - ${fullName} (${inquiryType === 'subcontractor' ? 'Subcontractor' : 'Homeowner'})`;
-        const body = `New Website Inquiry Received
+            const damageType = getFormValue(this, [
+                { selector: '#preClaimDamageType' },
+                { selector: '[name="damage_type"]' }
+            ]) || 'Not specified';
+
+            const description = getFormValue(this, [
+                { selector: '#preClaimDescription' },
+                { selector: '[name="description"]' }
+            ]) || 'No description provided';
+
+            // Build email body
+            const subject = `Free Pre-Claim Estimate Request - ${fullName}`;
+            const body = `Free Pre-Claim Construction & Repair Estimate Request
+
+Contact Details:
+----------------
+Name: ${fullName}
+Phone: ${phone}
+Email: ${email}
+Property City/Town: ${cityTown}
+
+Damage Details:
+---------------
+Type of Damage: ${damageType}
+Description: ${description}
+
+---
+Sent from Cadre & Consilium Group Website
+${new Date().toLocaleString()}
+`;
+
+            // Build mailto URL
+            const mailtoUrl = buildMailtoUrl(subject, body);
+
+            // Set button to loading state
+            if (submitBtn) {
+                submitBtn.textContent = 'Opening Email App...';
+                submitBtn.disabled = true;
+            }
+
+            // Open mailto
+            window.location.href = mailtoUrl;
+
+            // Show success UI
+            setTimeout(() => {
+                showMailtoSuccess(this, 'Request Ready to Send! Your email app will open with a pre-filled message. Please review and tap Send.', mailtoUrl);
+                this.reset();
+
+                // Restore button
+                if (submitBtn) {
+                    submitBtn.textContent = originalBtnText;
+                    submitBtn.disabled = false;
+                }
+            }, 500);
+        });
+    }
+
+    // ==========================================
+    // CONTACT FORM (handles both homeowner & subcontractor)
+    // ==========================================
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn?.textContent || 'Submit';
+
+            // Client-side validation
+            const invalidField = validateRequiredFields(this);
+            if (invalidField) {
+                invalidField.focus();
+                return;
+            }
+
+            // Extract form data - supports both field naming conventions
+            const inquiryType = getFormValue(this, [
+                { selector: '#inquiry_type' },
+                { selector: '[name="inquiry_type"]' }
+            ]) || 'homeowner';
+
+            const fullName = getFormValue(this, [
+                { selector: '#full_name' },
+                { selector: '#name' },
+                { selector: '[name="full_name"]' },
+                { selector: '[name="name"]' }
+            ]) || 'Not provided';
+
+            const phone = getFormValue(this, [
+                { selector: '#phone' },
+                { selector: '[name="phone"]' }
+            ]) || 'Not provided';
+
+            const email = getFormValue(this, [
+                { selector: '#email' },
+                { selector: '[name="email"]' }
+            ]) || 'Not provided';
+
+            const cityTown = getFormValue(this, [
+                { selector: '#city_town' },
+                { selector: '#city' },
+                { selector: '[name="city_town"]' },
+                { selector: '[name="city"]' }
+            ]) || 'Not provided';
+
+            const message = getFormValue(this, [
+                { selector: '#message' },
+                { selector: '[name="message"]' }
+            ]) || 'No message provided';
+
+            // Build email body
+            const subject = `New Website Inquiry - ${fullName} (${inquiryType === 'subcontractor' ? 'Subcontractor' : 'Homeowner'})`;
+            const body = `New Website Inquiry Received
 
 Inquiry Type: ${inquiryType === 'subcontractor' ? 'Subcontractor Application' : 'Homeowner Estimate Request'}
 
@@ -641,28 +551,37 @@ Sent from Cadre & Consilium Group Website
 ${new Date().toLocaleString()}
 `;
 
-        // Build mailto URL
-        const mailtoUrl = buildMailtoUrl(subject, body);
+            // Build mailto URL
+            const mailtoUrl = buildMailtoUrl(subject, body);
 
-        // Set button to loading state
-        if (submitBtn) {
-            submitBtn.textContent = 'Opening Email App...';
-            submitBtn.disabled = true;
-        }
-
-        // Open mailto
-        window.location.href = mailtoUrl;
-
-        // Show success UI
-        setTimeout(() => {
-            showMailtoSuccess(this, 'Message Ready to Send!', mailtoUrl);
-            this.reset();
-
-            // Restore button
+            // Set button to loading state
             if (submitBtn) {
-                submitBtn.textContent = originalBtnText;
-                submitBtn.disabled = false;
+                submitBtn.textContent = 'Opening Email App...';
+                submitBtn.disabled = true;
             }
-        }, 500);
-    });
-}
+
+            // Open mailto
+            window.location.href = mailtoUrl;
+
+            // Show success UI
+            setTimeout(() => {
+                showMailtoSuccess(this, 'Message Ready to Send!', mailtoUrl);
+                this.reset();
+
+                // Restore button
+                if (submitBtn) {
+                    submitBtn.textContent = originalBtnText;
+                    submitBtn.disabled = false;
+                }
+            }, 500);
+        });
+    }
+
+    // ==========================================
+    // FOOTER YEAR
+    // ==========================================
+    const yearEl = document.getElementById('year');
+    if (yearEl) {
+        yearEl.textContent = new Date().getFullYear();
+    }
+});
