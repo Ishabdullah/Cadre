@@ -1,51 +1,56 @@
-# Cadre Project Context
+# CADRE & CONSILIUM GROUP, LLC — PROJECT ARCHITECTURE & CONTEXT
 
-## Project Overview
-Cadre is a static company website built with vanilla HTML, CSS, and JavaScript. It serves as a professional web presence showcasing services, company information, and contact capabilities.
+## 1. Executive Summary & Brand Identity
+- **Company Name:** Cadre & Consilium Group, LLC
+- **Primary Domain/Hosting:** GitHub Pages (`https://ishabdullah.github.io/Cadre/`)
+- **Repository:** `https://github.com/Ishabdullah/Cadre.git`
+- **Contact Email:** `cadre.projectmanager@gmail.com`
+- **Design Palette:** Custom CSS properties (`--navy: #0A192F`, `--charcoal: #1E293B`, `--bronze: #C5A059`, `--offwhite: #F8FAFC`).
 
-## Tech Stack
-- **Frontend**: HTML5, CSS3, Vanilla JavaScript (ES6+)
-- **No build system** - direct static files
-- **Assets**: Images, logos, documents stored in `/assets`
-- **Pages**: Modular HTML pages in `/pages`
-
-## Project Structure
-```
+## 2. Directory Tree & File Map
+```text
 cadre/
-├── index.html          # Homepage
-├── script.js           # Main JavaScript logic
-├── style.css           # Global styles
+├── QWEN.md                 # Project architecture & context memory file
+├── index.html              # Main landing page & single-page application entry point
+├── style.css               # Centralized semantic stylesheet (Flexbox/Grid, media queries)
+├── script.js              # Centralized JavaScript interactivity (forms, modals, nav)
 ├── assets/
-│   ├── images/         # General images
-│   ├── logos/          # Brand assets (cadre-logo.png)
-│   └── documents/      # Downloadable documents
-└── pages/
-    ├── about.html      # Company info & three-pillar highlights
-    ├── contact.html    # Contact form with email submission
-    └── services.html   # Service offerings
+│   ├── documents/         # Static MSA agreements, contracts, and templates
+│   ├── images/            # Project photos and background visuals
+│   └── logos/
+│       └── cadre-logo.png # High-res brand logo (constrained max-width)
+└── pages/                  # Multi-page routing sub-directory
+    ├── about.html          # Extended company vision & leadership details
+    ├── contact.html        # Primary contact page with form validation
+    └── services.html       # Full service breakdown (6 core offerings)
 ```
 
-## Key Features
-1. **Subcontractor Onboarding Modal** - Interactive modal with contract review and application form
-2. **Contact Form** - Email submission endpoint integration
-3. **About Section** - Company messaging with three-pillar highlights
-4. **Brand Identity** - Cadre logo and consistent branding
+## 3. Critical Structural & Relative Path Rules
+- **Root Page (index.html):** References scripts as `<script src="script.js" defer></script>` and assets as `assets/....`
+- **Subpages (pages/*.html):** MUST reference assets and scripts with relative root steps:
+  - Scripts: `<script src="../script.js" defer></script>`
+  - Styles: `<link rel="stylesheet" href="../style.css">`
+  - Root links: `../index.html`
+  - Peer page links: `services.html`, `about.html`, `contact.html`
 
-## Recent Development History
-- **998a7aa**: Added interactive Subcontractor Onboarding Modal with contract review and application form
-- **20fce6b**: Integrated email submission endpoint for contact form
-- **8a40412**: Removed address from contact info
-- **6d32538**: Updated About section with new company messaging and three-pillar highlights
-- **621f3ce**: Added Cadre logo and branding
+## 4. Key Interactive Components & Logic
+- **Subcontractor Onboarding Modal:** Triggered via `#subcontractorModal` buttons in `script.js`. Handles license verification toggles, MSA preview/downloads, and Formspree AJAX posting.
+- **Contact Form Submission:** Handles `#contactForm` via `fetch()` to Formspree endpoint (targeting `cadre.projectmanager@gmail.com`).
+- **Services Grid (6 Core Cards):**
+  1. Full Home Remodeling & Additions
+  2. Kitchen & Bathroom Renovations
+  3. Interior & Exterior Finishes
+  4. Structural Repairs & Framing
+  5. Project Management & Permitting
+  6. Pre-Claim Construction & Repair Estimate (New 6th card)
 
-## Conventions
-- **Naming**: kebab-case for files, camelCase for JS functions/variables
-- **CSS**: BEM-inspired class naming, mobile-first responsive design
-- **JS**: Modular functions, event delegation for dynamic elements
-- **Git**: Conventional commits (feat, fix, chore, etc.)
-
-## Development Notes
-- No package.json or build tools - direct file editing
-- Test by opening index.html in browser
-- All paths relative to project root
-- Assets referenced from `/assets/` directory
+## 5. Deployment & Git Standards
+- Always stage all project directories using `git add -A`.
+- Keep changes modular across `index.html`, `style.css`, `script.js`, and `pages/`.
+- Maintain clean, descriptive commit messages.
+- Save this file as `/data/data/com.termux/files/home/cadre/QWEN.md`, then commit and push it to GitHub:
+```bash
+git add QWEN.md
+git commit -m "Created QWEN.md context memory file for project architecture"
+git push origin main
+```
