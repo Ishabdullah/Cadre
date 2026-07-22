@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact Cadre & Consilium</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../style.css">
+  <script src="../script.js"></script>
+</head>
+
+<body>
+  
+  <!-- Header / Navigation -->
+  <header>
+    <nav class="navbar">
+      <div class="nav-container">
+        <!-- Logo -->
+        <svg class="logo" viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 5 L95 5 L95 45 L5 45 Z" fill="#0A192F"/>
+          <text x="50" y="30" text-anchor="middle" dominant-baseline="middle"
+                font-family="Inter, sans-serif" font-weight="700" font-size="36"
+                fill="#FFFFFF">C&C</text>
+        </svg>
+        <span class="nav-title">Cadre & Consilium Group, LLC</span>
+
+        <!-- Desktop menu -->
+        <ul class="nav-menu">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="pages/services.html">Services</a></li>
+          <li><a href="#subcontractors">Subcontractors</a></li>
+          <li><a href="pages/about.html">About</a></li>
+          <li><a href="pages/contact.html">Contact</a></li>
+        </ul>
+
+        <!-- Mobile hamburger toggle -->
+        <button class="nav-toggle" aria-label="Toggle navigation">
+          &#9776;
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  
+  <!-- Contact Section -->
+  <section class="contact">
+    <h2>Contact Us</h2>
+
+    <!-- Radio selector for user type -->
+    <div class="radio-selector">
+      <label>
+        <input type="radio" name="user-type" value="homeowner" checked>
+        Homeowner – Request an Estimate
+      </label>
+      <label>
+        <input type="radio" name="user-type" value="subcontractor">
+        Subcontractor – Apply for Work
+      </label>
+    </div>
+
+    <form id="contactForm">
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" required placeholder="Your name">
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" name="phone" required placeholder="(860) 555‑1234">
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required placeholder="you@example.com">
+      </div>
+      <div class="form-group">
+        <label for="city">City / Town</label>
+        <input type="text" id="city" name="city" required placeholder="Wethersfield, CT">
+      </div>
+      <div class="form-group">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="4" required placeholder="How can we help?"></textarea>
+      </div>
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <div class="contact-info">
+      <p><strong>Company:</strong> Cadre & Consilium Group, LLC</p>
+      <p><strong>Address:</strong> 1680 Berlin Turnpike, Wethersfield, CT 06109</p>
+      <p><strong>Phone:</strong> (860) 470‑6773</p>
+      <p><strong>Email:</strong> cadre.projectmanager@gmail.com</p>
+    </div>
+  </section>
+
+  
+  <!-- Footer -->
+  <footer>
+    <p>&copy; <span id="year"></span> Cadre & Consilium Group, LLC. All rights reserved.</p>
+    <ul class="social-links">
+      <li><a href="#">GitHub</a></li>
+      <li><a href="#">LinkedIn</a></li>
+      <li><a href="#">Facebook</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    // Populate current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Mobile nav toggle
+    const toggle = document.querySelector('.nav-toggle');
+    const menu = document.querySelector('.nav-menu');
+    if (toggle && menu) {
+      toggle.addEventListener('click', () => menu.classList.toggle('open'));
+    }
+  </script>
+</body>
+</html>

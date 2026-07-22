@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Services</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../style.css">
+  <script src="../script.js"></script>
+</head>
+
+<body>
+  
+  <!-- Header / Navigation -->
+  <header>
+    <nav class="navbar">
+      <div class="nav-container">
+        <!-- Logo -->
+        <svg class="logo" viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 5 L95 5 L95 45 L5 45 Z" fill="#0A192F"/>
+          <text x="50" y="30" text-anchor="middle" dominant-baseline="middle"
+                font-family="Inter, sans-serif" font-weight="700" font-size="36"
+                fill="#FFFFFF">C&C</text>
+        </svg>
+        <span class="nav-title">Cadre & Consilium Group, LLC</span>
+
+        <!-- Desktop menu -->
+        <ul class="nav-menu">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="pages/services.html">Services</a></li>
+          <li><a href="#subcontractors">Subcontractors</a></li>
+          <li><a href="pages/about.html">About</a></li>
+          <li><a href="pages/contact.html">Contact</a></li>
+        </ul>
+
+        <!-- Mobile hamburger toggle -->
+        <button class="nav-toggle" aria-label="Toggle navigation">
+          &#9776;
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  
+  <!-- Services Section -->
+  <section class="services">
+    <h2>Our Services</h2>
+    <div class="service-grid">
+      <div class="service-card">
+        <svg viewBox="0 0 24 24" fill="#0A192F"><path d="M7 10c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h10l2-2v-6c0-1.1-.9-2-2-2H9V8H7zm9 14c0-1.66-1.34-3-3-3H7c-1.66 0-3 1.34-3 3v6c0 1.66 1.34 3 3 3h10c1.66 0 3-1.34 3-3v-6zM7 8h10v5H7V8zm9 5H7v-5h10v5z"/></svg>
+        <h3>Full Home Remodeling & Additions</h3>
+      </div>
+      <div class="service-card">
+        <svg viewBox="0 0 24 24" fill="#0A192F"><path d="M20 2H4c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H4V2h16v18z"/></svg>
+        <h3>Kitchen & Bathroom Renovations</h3>
+      </div>
+      <div class="service-card">
+        <svg viewBox="0 0 24 24" fill="#0A192F"><path d="M5 20h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2zm0-4h14v-2H5v2"/></svg>
+        <h3>Interior & Exterior Finishes</h3>
+      </div>
+      <div class="service-card">
+        <svg viewBox="0 0 24 24" fill="#0A192F"><path d="M12 2L2 7v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V5l-10 3zM5 8h14v2H5V8zm14 14H5v-2h14v2zm0-4H5V8h14v2z"/></svg>
+        <h3>Structural Repairs & Framing</h3>
+      </div>
+    </div>
+  </section>
+
+  
+  <!-- Subcontractor Section -->
+  <section id="subcontractors" class="subcontractor-section">
+    <h2>Trade Partners</h2>
+    <p>Qualified 1099 subcontractors receive fixed work orders, fair market rates, weekly payouts, and a fast 7&#8209;day final settlement upon inspection sign-off.</p>
+    <a href="pages/contact.html" class="cta-sub">Apply as a Subcontractor</a>
+  </section>
+
+  
+  <!-- Footer -->
+  <footer>
+    <p>&copy; <span id="year"></span> Cadre & Consilium Group, LLC. All rights reserved.</p>
+    <ul class="social-links">
+      <li><a href="#">GitHub</a></li>
+      <li><a href="#">LinkedIn</a></li>
+      <li><a href="#">Facebook</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    // Populate current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Mobile nav toggle
+    const toggle = document.querySelector('.nav-toggle');
+    const menu = document.querySelector('.nav-menu');
+    if (toggle && menu) {
+      toggle.addEventListener('click', () => menu.classList.toggle('open'));
+    }
+  </script>
+</body>
+</html>
