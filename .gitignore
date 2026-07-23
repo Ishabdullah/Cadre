@@ -4,3 +4,9 @@
 node_modules/
 .idea/
 .vscode/
+.qwen/
+assets/documents/extracted/
+assets/documents/*.py
+assets/documents/verify_final/
+assets/documents/Subcontractor_MSA_Final.docx
+assets/documents/Subcontractor_MSA_Updated.docx
